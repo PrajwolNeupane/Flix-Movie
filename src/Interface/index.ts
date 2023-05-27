@@ -7,5 +7,8 @@ export interface LoginInputProps {
     register:Function
 }
 export interface AuthErrorCodeInterface {
-  string:string
+  codes:Array<{code:string,message:string}>
+}
+export interface GenreIDInterface {
+  genres:Array<{id:number,name:string}>
 }

@@ -7,7 +7,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { signupDataInterface, signupSchema } from '../Interface/formSchema.ts';
 import Signup  from '../Feature/Signup.ts';
-
+import BgImg from '../Assets/Image/BackgroundImage.png';
 
 const SignupPage: FC<any> = ({ }) => {
 
@@ -35,7 +35,7 @@ const SignupPage: FC<any> = ({ }) => {
 
 
     return (
-        <VStack padding={"10px 0px"} bgColor={"dark.900"} w={"100%"} minHeight={"100vh"} h={"100%"} alignItems={"center"} justifyContent={"center"}>
+        <VStack padding={"10px 0px"}  bg={`linear-gradient(rgb(31, 29, 31,0.98),rgb(31, 29, 31,0.98)),url(${BgImg})`} w={"100%"} minHeight={"100vh"} h={"100%"} alignItems={"center"} justifyContent={"center"}>
             <VStack bgColor={"dark.800"} borderRadius={"10px"} w={"35%"} p={"40px 30px"} alignItems={"flex-start"} as={"form"} onSubmit={onSubmit}
             >
                 <Heading fontFamily={"Nunito"} fontSize={"lg"} fontWeight={"medium"} color={"text.300"}>Sign up !</Heading>

@@ -7,6 +7,7 @@ import { loginDataInterface, loginSchema } from '../Interface/formSchema.ts';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import login from '../Feature/Login.ts';
+import BgImg from '../Assets/Image/BackgroundImage.png';
 
 export default function LoginPage() {
 
@@ -23,7 +24,7 @@ export default function LoginPage() {
   }
 
   const onSubmit = handleSubmit(data => {
-    console.log({ ...data, captchaValue: captchaValue })
+    console.log({ ...data, captchaValue: captchaValue })  
     login(data.email, data.password,data.saveAuth, () => {
       successToast(toast, "Login", "Successfully")
     }, (message) => {
@@ -36,7 +37,7 @@ export default function LoginPage() {
 
 
   return (
-    <VStack bgColor={"dark.900"} w={"100%"} h={"100vh"} alignItems={"center"} justifyContent={"center"}>
+    <VStack bg={`linear-gradient(rgb(31, 29, 31,0.98),rgb(31, 29, 31,0.98)),url(${BgImg})`} w={"100%"} h={"100vh"} alignItems={"center"} justifyContent={"center"}>
       <VStack bgColor={"dark.800"} borderRadius={"10px"} w={"35%"} p={"40px 30px"} alignItems={"flex-start"} as={"form"} onSubmit={onSubmit}
       >
         <Heading fontFamily={"Nunito"} fontSize={"lg"} fontWeight={"medium"} color={"text.300"}>Welcome back!</Heading>
