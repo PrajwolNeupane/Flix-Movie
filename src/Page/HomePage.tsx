@@ -1,7 +1,6 @@
 import { FC } from 'react';
-import NavBar from '../Component/NavBar';
-import { Box } from '@chakra-ui/react';
-import BgImg from '../Assets/Image/BackgroundImage.png';
+import { Text } from '@chakra-ui/react';
+
 
 interface Prop {
 
@@ -10,9 +9,7 @@ interface Prop {
 let HomePage: FC<Prop> = ({ }) => {
     return (
         <>
-            <Box  bg={`linear-gradient(rgb(31, 29, 31,0.98),rgb(31, 29, 31,0.98)),url(${BgImg})`}>
-                <NavBar />
-            </Box>
+            <Text>Hello I under the water</Text>
         </>
     )
 }
