@@ -1,11 +1,12 @@
 import { FC, useState } from 'react';
-import { VStack, Heading, Button, Text, HStack, Checkbox,useToast } from '@chakra-ui/react';
+import { VStack, Heading, Button, Text, HStack, Checkbox, useToast } from '@chakra-ui/react';
 import { useForm } from "react-hook-form";
-import { LoginInput,successToast } from '../Component/CusomComponents';
+import { LoginInput, successToast,errorToast } from '../Component/CusomComponents';
 import { Link } from 'react-router-dom';
 import ReCAPTCHA from "react-google-recaptcha";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { signupDataInterface, signupSchema } from '../Interface/formSchema.ts';
+import Signup  from '../Feature/Signup.ts';
 
 
 const SignupPage: FC<any> = ({ }) => {
@@ -17,14 +18,21 @@ const SignupPage: FC<any> = ({ }) => {
     });
     const [captchaValue, setCaptchaValue] = useState<string>();
 
-    const onSubmit = handleSubmit(data => {
-        console.log({...data,captchaValue:captchaValue})
-        successToast(toast,"Login","Successfully");
-      });
-
     function onChange(value: any) {
         setCaptchaValue(value);
     }
+
+    const onSubmit = handleSubmit(data => {
+        console.log({ ...data, captchaValue: captchaValue })
+        Signup(data.name, data.email, data.password ? data.password : "",data.saveAuth, () => {
+            successToast(toast, "Login", "Successfully");
+        },(e)=>{
+            errorToast(toast,e,"");
+        });
+
+    });
+
+
 
     return (
         <VStack padding={"10px 0px"} bgColor={"dark.900"} w={"100%"} minHeight={"100vh"} h={"100%"} alignItems={"center"} justifyContent={"center"}>

@@ -5,4 +5,7 @@ export interface LoginInputProps {
     label:string,
     placeholder:string,
     register:Function
-  }
+}
+export interface AuthErrorCodeInterface {
+  string:string
+}

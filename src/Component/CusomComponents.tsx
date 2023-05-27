@@ -2,13 +2,13 @@ import { Input, Text } from '@chakra-ui/react';
 import { FC } from 'react';
 import { LoginInputProps } from '../Interface';
 
-export const errorToast = (toast: (arg0: { title: string; description: string; duration: number; isClosable: boolean; status: string; position: string; }) => void,title:string,error:string) => {
+export const errorToast = (toast:any,title:string,error:string) => {
   toast({
     title: title,
     description: error,
     duration: 5000,
     isClosable: true,
-    status: 'success',
+    status: 'error',
     position: 'bottom-right',
     
   });

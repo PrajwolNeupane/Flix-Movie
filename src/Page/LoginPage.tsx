@@ -1,29 +1,38 @@
-import { VStack, Heading, Button, Text, HStack, Checkbox,useToast} from '@chakra-ui/react';
+import { VStack, Heading, Button, Text, HStack, Checkbox, useToast } from '@chakra-ui/react';
 import ReCAPTCHA from "react-google-recaptcha";
 import { useForm } from "react-hook-form";
-import { LoginInput ,successToast} from '../Component/CusomComponents';
+import { LoginInput, successToast,errorToast } from '../Component/CusomComponents';
 import { yupResolver } from '@hookform/resolvers/yup';
-import {loginDataInterface,loginSchema} from '../Interface/formSchema.ts';
+import { loginDataInterface, loginSchema } from '../Interface/formSchema.ts';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import login from '../Feature/Login.ts';
 
 export default function LoginPage() {
 
   const toast = useToast();
 
 
-  const { register, formState: { errors },handleSubmit } = useForm<loginDataInterface>({
-    resolver:yupResolver(loginSchema)
+  const { register, formState: { errors }, handleSubmit } = useForm<loginDataInterface>({
+    resolver: yupResolver(loginSchema)
   });
-  const [captchaValue,setCaptchaValue] = useState<string>();
-  const onSubmit = handleSubmit(data => {
-    console.log({...data,captchaValue:captchaValue})
-    successToast(toast,"Login","Successfully");
-  });
+  const [captchaValue, setCaptchaValue] = useState<string>();
 
-  function onChange(value:any) {
+  function onChange(value: any) {
     setCaptchaValue(value);
   }
+
+  const onSubmit = handleSubmit(data => {
+    console.log({ ...data, captchaValue: captchaValue })
+    login(data.email, data.password,data.saveAuth, () => {
+      successToast(toast, "Login", "Successfully")
+    }, (message) => {
+      errorToast(toast,message,"");
+      console.log(message);
+    })
+  });
+
+
 
 
   return (
@@ -36,11 +45,11 @@ export default function LoginPage() {
         <LoginInput register={register} type='password' name='password' label='Password' placeholder='User Password' />
         <Text fontSize={"xxs"} fontWeight={"regular"} color={"error.500"}>{errors.password == null ? "" : errors.password.message}</Text>
         <HStack>
-          <Checkbox {...register("saveAuth")} outline={"none"} colorScheme={"whiteAlpha"}/>
+          <Checkbox {...register("saveAuth")} outline={"none"} colorScheme={"whiteAlpha"} />
           <Text color={"brand.500"} fontWeight={"regular"} fontSize={"xxs"}>Remember me</Text>
         </HStack>
-        <ReCAPTCHA style={{margin:"10px 0px"}} sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" onChange={onChange} />
-        <Button w={"100%"}  type='submit' bgColor={"brand.400"} color={"dark.700"} _hover={{ bgColor: "brand.500" }} fontSize={"xs"} fontWeight={"semibold"}>Sign In</Button>
+        <ReCAPTCHA style={{ margin: "10px 0px" }} sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" onChange={onChange} />
+        <Button w={"100%"} type='submit' bgColor={"brand.400"} color={"dark.700"} _hover={{ bgColor: "brand.500" }} fontSize={"xs"} fontWeight={"semibold"}>Sign In</Button>
         <Text color={"brand.500"} fontWeight={"regular"} fontSize={"xxs"}>Forget your Password?</Text>
         <Link to={"/sign-up"}>
           <Text color={"brand.500"} fontWeight={"regular"} fontSize={"xxs"}>Sign up for a new account</Text>
