@@ -2,7 +2,7 @@ import { lazy,Suspense } from 'react';
 import LoginPage from './Page/LoginPage';
 import { Routes,Route } from 'react-router-dom';
 import HomePage from './Page/HomePage';
-import LayOut from './Component/Layout';
+import LayOut from './Component/Layout/Layout';
 const SignupPage = lazy(() => import('./Page/SignupPage'));
 
 
