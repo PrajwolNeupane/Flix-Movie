@@ -26,7 +26,7 @@ let NavBar: FC<Props> = ({ }) => {
                         <Text fontFamily={"Nunito"} fontSize={"xs"} color={"text.100"}>Genre</Text>
                         <ChevronDownIcon color={"text.100"} transitionDuration="300ms" fontSize={"rg"} transform={!menu ? "rotate(0deg)" : "rotate(180deg)"} />
                     </HStack>
-                    <Link to="/"><Text fontFamily={"Nunito"} fontSize={"xs"} color={"text.100"}>Contact Us</Text></Link>
+                    <Link to="/contact"><Text fontFamily={"Nunito"} fontSize={"xs"} color={"text.100"}>Contact Us</Text></Link>
                     <Link to={"/log-in"}>
                         <Button fontFamily={"Nunito"} fontSize={"xs"} p="0px 15px" height={"35px"} border={"1px"} color={"text.100"} bgColor={"transparent"} _hover={{ bgColor: "dark.900" }}>
                             Sign In
