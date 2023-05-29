@@ -12,7 +12,7 @@ interface Props {
 
 let LayOut: FC<Props> = ({ }) => {
     return (
-        <Box bg={`linear-gradient(rgb(31, 29, 31,0.98),rgb(31, 29, 31,0.98)),url(${BgImg})`}>
+        <Box bg={`linear-gradient(rgb(31, 29, 31,0.98),rgb(31, 29, 31,0.98)),url(${BgImg})`} bgAttachment={"fixed"}>
             <NavBar />
             <Outlet />
             <Footer />

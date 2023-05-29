@@ -50,6 +50,7 @@ const themeConfig = {
         bold: "700"
     },
     fontSizes: {
+        xxxl:"45px",
         xxl:"40px",
         xl: "35px",
         lg: "30px",
@@ -57,7 +58,8 @@ const themeConfig = {
         rg: "20px",
         sm: "18px",
         xs: "16px",
-        xxs:"14px"
+        xxs:"14px",
+        xxxs:"12px"
     },
     components: {
         Checkbox: {
