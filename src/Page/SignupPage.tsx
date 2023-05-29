@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 import { VStack, Heading, Button, Text, HStack, Checkbox, useToast } from '@chakra-ui/react';
 import { useForm } from "react-hook-form";
 import { LoginInput, successToast, errorToast } from '../Component/CusomComponents';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import ReCAPTCHA from "react-google-recaptcha";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { signupDataInterface, signupSchema } from '../Interface/formSchema.ts';
@@ -13,6 +13,7 @@ import { ArrowBackIcon } from '@chakra-ui/icons';
 const SignupPage: FC<any> = ({ }) => {
 
     const toast = useToast();
+    const navigate = useNavigate();
 
     const { register, handleSubmit, formState: { errors } } = useForm<signupDataInterface>({
         resolver: yupResolver(signupSchema)
@@ -26,7 +27,8 @@ const SignupPage: FC<any> = ({ }) => {
     const onSubmit = handleSubmit(data => {
         console.log({ ...data, captchaValue: captchaValue })
         Signup(data.name, data.email, data.password ? data.password : "", data.saveAuth, () => {
-            successToast(toast, "Login", "Successfully");
+            successToast(toast, "User Created", "Successfully");
+            navigate("/");
         }, (e) => {
             errorToast(toast, e, "");
         });

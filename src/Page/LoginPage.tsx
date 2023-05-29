@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { LoginInput, successToast, errorToast } from '../Component/CusomComponents';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { loginDataInterface, loginSchema } from '../Interface/formSchema.ts';
-import { Link } from 'react-router-dom';
+import { Link ,useNavigate} from 'react-router-dom';
 import { useState } from 'react';
 import login from '../Feature/Login.ts';
 import BgImg from '../Assets/Image/BackgroundImage.png';
@@ -13,6 +13,7 @@ import { ArrowBackIcon } from '@chakra-ui/icons';
 export default function LoginPage() {
 
   const toast = useToast();
+  const navigation = useNavigate();
 
 
   const { register, formState: { errors }, handleSubmit } = useForm<loginDataInterface>({
@@ -27,7 +28,8 @@ export default function LoginPage() {
   const onSubmit = handleSubmit(data => {
     console.log({ ...data, captchaValue: captchaValue })
     login(data.email, data.password, data.saveAuth, () => {
-      successToast(toast, "Login", "Successfully")
+      successToast(toast, "Login", "Successfully");
+      navigation("/");
     }, (message) => {
       errorToast(toast, message, "");
       console.log(message);
