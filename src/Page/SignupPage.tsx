@@ -1,13 +1,14 @@
 import { FC, useState } from 'react';
 import { VStack, Heading, Button, Text, HStack, Checkbox, useToast } from '@chakra-ui/react';
 import { useForm } from "react-hook-form";
-import { LoginInput, successToast,errorToast } from '../Component/CusomComponents';
+import { LoginInput, successToast, errorToast } from '../Component/CusomComponents';
 import { Link } from 'react-router-dom';
 import ReCAPTCHA from "react-google-recaptcha";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { signupDataInterface, signupSchema } from '../Interface/formSchema.ts';
-import Signup  from '../Feature/Signup.ts';
+import Signup from '../Feature/Signup.ts';
 import BgImg from '../Assets/Image/BackgroundImage.png';
+import { ArrowBackIcon } from '@chakra-ui/icons';
 
 const SignupPage: FC<any> = ({ }) => {
 
@@ -24,10 +25,10 @@ const SignupPage: FC<any> = ({ }) => {
 
     const onSubmit = handleSubmit(data => {
         console.log({ ...data, captchaValue: captchaValue })
-        Signup(data.name, data.email, data.password ? data.password : "",data.saveAuth, () => {
+        Signup(data.name, data.email, data.password ? data.password : "", data.saveAuth, () => {
             successToast(toast, "Login", "Successfully");
-        },(e)=>{
-            errorToast(toast,e,"");
+        }, (e) => {
+            errorToast(toast, e, "");
         });
 
     });
@@ -35,7 +36,7 @@ const SignupPage: FC<any> = ({ }) => {
 
 
     return (
-        <VStack padding={"10px 0px"}  bg={`linear-gradient(rgb(31, 29, 31,0.98),rgb(31, 29, 31,0.98)),url(${BgImg})`} w={"100%"} minHeight={"100vh"} h={"100%"} alignItems={"center"} justifyContent={"center"}>
+        <VStack padding={"10px 0px"} bg={`linear-gradient(rgb(31, 29, 31,0.98),rgb(31, 29, 31,0.98)),url(${BgImg})`} w={"100%"} minHeight={"100vh"} h={"100%"} alignItems={"center"} justifyContent={"center"}>
             <VStack bgColor={"dark.800"} borderRadius={"10px"} w={"35%"} p={"40px 30px"} alignItems={"flex-start"} as={"form"} onSubmit={onSubmit}
             >
                 <Heading fontFamily={"Nunito"} fontSize={"lg"} fontWeight={"medium"} color={"text.300"}>Sign up !</Heading>
@@ -57,6 +58,12 @@ const SignupPage: FC<any> = ({ }) => {
                     <Text color={"brand.500"} fontWeight={"regular"} fontSize={"xxs"}>Have an existing account?  Sign in </Text>
                 </Link>
             </VStack>
+            <Link to={"/"}>
+                <HStack >
+                    <ArrowBackIcon color={"brand.400"} fontSize={"xs"} />
+                    <Text color={"brand.400"} fontSize={"xs"}>Back to Home</Text>
+                </HStack>
+            </Link>
         </VStack>
     )
 }

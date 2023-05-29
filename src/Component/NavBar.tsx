@@ -39,8 +39,8 @@ let NavBar: FC<Props> = ({ }) => {
                     </Link>
                 </HStack>
             </HStack>
-            <Collapse in={menu} animateOpacity>
-                <HStack ml={"45%"} w="55%" flexWrap={"wrap"} gap={"1px"} justify={"end"}>
+            <Collapse  in={menu} animateOpacity>
+                <HStack  ml={"45%"} w="55%" flexWrap={"wrap"} gap={"1px"} justify={"end"}>
                     {
                         GenreID.genres?.map((curr: { id: number, name: string }, indx: number) => {
                             return (
