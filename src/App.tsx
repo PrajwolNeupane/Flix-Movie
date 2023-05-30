@@ -8,6 +8,7 @@ import getPopularMovieList from './App/Reducer/getPopularMovieList';
 import { useAppDispatch, useAppSelector } from './App/store';
 import { useEffect } from 'react';
 import appendPopularMovieList from './App/Reducer/appendPopularMovieList';
+import getUpComingMovieList from './App/Reducer/getUpComingMovieList';
 
 //Lazy Import
 const SignupPage = lazy(() => import('./Page/SignupPage'));
@@ -16,16 +17,22 @@ const LoginPage = lazy(() => import('./Page/LoginPage'));
 function App() {
 
   const dispatch = useAppDispatch();
-  const { page } = useAppSelector((state) => state.movieList.popularMovie);
+  const popularPage = useAppSelector((state) => state.movieList.popularMovie.page);
+  const upComingPage = useAppSelector((state) => state.movieList.upComingMovie.page);
 
 
   useEffect(() => {
     dispatch(getPopularMovieList());
+    dispatch(getUpComingMovieList());
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(appendPopularMovieList(page));
-  }, [page]);
+    dispatch(appendPopularMovieList(popularPage));
+  }, [popularPage]);
+
+  useEffect(() => {
+    dispatch(appendPopularMovieList(upComingPage));
+  }, [upComingPage]);
 
 
   return (
