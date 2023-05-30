@@ -4,6 +4,8 @@ import appendPopularMovieList from './Reducer/appendPopularMovieList';
 import {Movie} from '../Interface/index.ts';
 import getUpComingMovieList from './Reducer/getUpComingMovieList.ts';
 import appendUpComingMovieList from './Reducer/appendUpComingMovieList.ts';
+import getTrendingMovieList from './Reducer/getTrendingMovieList.ts';
+import appendTrendingMovieList from './Reducer/appendTrendingMovieList.ts';
 
 type InitialState = {
     popularMovie:{
@@ -12,6 +14,10 @@ type InitialState = {
     },
     upComingMovie:{
         upComingMovieList:Array<Movie>,
+        page:number
+    },
+    trendingMovie:{
+        trendingMovieList:Array<Movie>,
         page:number
     }
    
@@ -24,6 +30,10 @@ const initialState:InitialState = {
     },
     upComingMovie:{
         upComingMovieList:[],
+        page:1
+    },
+    trendingMovie:{
+        trendingMovieList:[],
         page:1
     }
 }
@@ -39,9 +49,13 @@ const MovieListSlice = createSlice({
         },
         setUpComingPage:(state,action:PayloadAction<any>) => {
             state.upComingMovie.page = action.payload
+        },
+        setTrendingPage:(state,action:PayloadAction<any>) => {
+            state.trendingMovie.page = action.payload
         }
     },
     extraReducers:(builder) => {
+        //Builder for Popular Movie List
         builder.addCase(getPopularMovieList.fulfilled,(state,action) => {
             state.popularMovie.popularMoiveList = action.payload
         })
@@ -50,12 +64,22 @@ const MovieListSlice = createSlice({
                 state.popularMovie.popularMoiveList = state.popularMovie.popularMoiveList.concat(action.payload)
             }
         })
+        //Builder for Up Coming Movie List
         builder.addCase(getUpComingMovieList.fulfilled,(state,action) => {
             state.upComingMovie.upComingMovieList = action.payload
         })
         builder.addCase(appendUpComingMovieList.fulfilled,(state,action) => {
             if(state.upComingMovie.page != 1){
-                state.upComingMovie.upComingMovieList = action.payload
+                state.upComingMovie.upComingMovieList = state.upComingMovie.upComingMovieList.concat(action.payload)
+            }
+        })
+        //Builder for Trending Movie List
+        builder.addCase(getTrendingMovieList.fulfilled,(state,action) => {
+            state.trendingMovie.trendingMovieList = action.payload
+        })
+        builder.addCase(appendTrendingMovieList.fulfilled,(state,action) => {
+            if(state.trendingMovie.page != 1){
+                state.trendingMovie.trendingMovieList = state.trendingMovie.trendingMovieList.concat(action.payload)
             }
         })
     }
