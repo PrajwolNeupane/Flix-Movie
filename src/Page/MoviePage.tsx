@@ -6,20 +6,24 @@ import MovieFilterIcon from '@mui/icons-material/MovieFilter';
 import StarRateIcon from '@mui/icons-material/StarRate';
 import CallMadeIcon from '@mui/icons-material/CallMade';
 import CardList from '../Component/CardList';
+import { useAppDispatch,useAppSelector } from '../App/store';
 
 interface Props {
 
 }
 
 let MoviePage: FC<Props> = ({ }) => {
+
+    const {popularMovie} = useAppSelector((state) => state.movieList);
+
     return (
         <>
             <Header />
             <Box w={"100%"} p={"25px 5%"}>
-                <CardList icon={LocalFireDepartmentIcon} title='Now Trending'/>
-                <CardList icon={CallMadeIcon} title='Up Coming'/>
-                <CardList icon={MovieFilterIcon} title='Popular'/>
-                <CardList icon={StarRateIcon} title='Top Rated'/>
+                {/* <CardList icon={LocalFireDepartmentIcon} title='Now Trending'/>
+                <CardList icon={CallMadeIcon} title='Up Coming'/> */}
+                <CardList icon={MovieFilterIcon} title='Popular' data={popularMovie?.popularMoiveList} page={popularMovie?.page}/>
+                {/* <CardList icon={StarRateIcon} title='Top Rated'/> */}
             </Box>
         </>
     )

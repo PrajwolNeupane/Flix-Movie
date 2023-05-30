@@ -1,10 +1,11 @@
 import {createSlice,PayloadAction } from '@reduxjs/toolkit';
 import getPopularMovieList from './Reducer/getPopularMovieList';
 import appendPopularMovieList from './Reducer/appendPopularMovieList';
+import {Movie} from '../Interface/index.ts';
 
 type InitialState = {
     popularMovie:{
-        popularMoiveList:any,
+        popularMoiveList:Array<Movie>,
         page:number
     }
    
@@ -23,16 +24,13 @@ const MovieListSlice = createSlice({
     name:"MovieList",
     initialState,
     reducers:{
-        setMovieList:(state,action: PayloadAction<any>) => {
-            state.popularMovie.popularMoiveList = action.payload;
+        setPopularPage:(state,action:PayloadAction<any>) => {
+            state.popularMovie.page = action.payload
         }
     },
     extraReducers:(builder) => {
         builder.addCase(getPopularMovieList.fulfilled,(state,action) => {
             state.popularMovie.popularMoiveList = action.payload
-        })
-        builder.addCase(getPopularMovieList.rejected,(state,action) => {
-           console.log("Got Error");
         })
         builder.addCase(appendPopularMovieList.fulfilled,(state,action) => {
             if(state.popularMovie.page != 1){
@@ -43,6 +41,5 @@ const MovieListSlice = createSlice({
 });
 
 
-
 export default MovieListSlice.reducer;
-export const {setMovieList} = MovieListSlice.actions; 
+export const {setPopularPage} = MovieListSlice.actions; 
