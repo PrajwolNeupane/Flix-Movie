@@ -6,7 +6,7 @@ import MovieFilterIcon from '@mui/icons-material/MovieFilter';
 import StarRateIcon from '@mui/icons-material/StarRate';
 import CallMadeIcon from '@mui/icons-material/CallMade';
 import CardList from '../Component/CardList';
-import { useAppDispatch, useAppSelector } from '../App/store';
+import { useAppSelector } from '../App/store';
 
 interface Props {
 
