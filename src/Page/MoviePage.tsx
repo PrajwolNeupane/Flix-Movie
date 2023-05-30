@@ -1,8 +1,11 @@
 import { FC } from 'react';
 import Header from '../Component/Header';
-import { Box, HStack, Heading, Icon, Text } from '@chakra-ui/react';
+import { Box} from '@chakra-ui/react';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
-import { Card } from '../Component/CusomComponents';
+import MovieFilterIcon from '@mui/icons-material/MovieFilter';
+import StarRateIcon from '@mui/icons-material/StarRate';
+import CallMadeIcon from '@mui/icons-material/CallMade';
+import CardList from '../Component/CardList';
 
 interface Props {
 
@@ -12,22 +15,11 @@ let MoviePage: FC<Props> = ({ }) => {
     return (
         <>
             <Header />
-            <Box w={'100%'} p={"50px 5%"}>
-                <HStack>
-                    <Icon as={LocalFireDepartmentIcon} color={"brand.500"} fontSize={"xxl"}/>
-                    <Heading  color={"text.100"} fontFamily={"Nunito"} fontWeight={"semibold"} fontSize={"md"}>
-                        Now Trending
-                    </Heading>
-                </HStack>
-                <HStack p={"30px 0px"} gap={"15px"} flexWrap={"wrap"} alignItems={"center"} justifyContent={"start"}>
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                </HStack>
+            <Box w={"100%"} p={"25px 5%"}>
+                <CardList icon={LocalFireDepartmentIcon} title='Now Trending'/>
+                <CardList icon={CallMadeIcon} title='Up Coming'/>
+                <CardList icon={MovieFilterIcon} title='Popular'/>
+                <CardList icon={StarRateIcon} title='Top Rated'/>
             </Box>
         </>
     )
