@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import appendPopularMovieList from './App/Reducer/appendPopularMovieList';
 import getUpComingMovieList from './App/Reducer/getUpComingMovieList';
 import getTrendingMovieList from './App/Reducer/getTrendingMovieList';
+import getTopRatedMovieList from './App/Reducer/topRatedMovieLisr';
 
 //Lazy Import
 const SignupPage = lazy(() => import('./Page/SignupPage'));
@@ -21,12 +22,14 @@ function App() {
   const popularPage = useAppSelector((state) => state.movieList.popularMovie.page);
   const upComingPage = useAppSelector((state) => state.movieList.upComingMovie.page);
   const trendingPage = useAppSelector((state) => state.movieList.trendingMovie.page);
+  const topRatedPage = useAppSelector((state) => state.movieList.topRatedMovie.page);
 
 
   useEffect(() => {
     dispatch(getPopularMovieList());
     dispatch(getUpComingMovieList());
     dispatch(getTrendingMovieList());
+    dispatch(getTopRatedMovieList())
   }, [dispatch]);
 
   useEffect(() => {
@@ -46,6 +49,12 @@ function App() {
       dispatch(appendPopularMovieList(upComingPage));
     }
   }, [upComingPage]);
+  
+  useEffect(() => {
+    if(topRatedPage != 1){
+      dispatch(appendPopularMovieList(topRatedPage));
+    }
+  }, [topRatedPage]);
 
 
   return (

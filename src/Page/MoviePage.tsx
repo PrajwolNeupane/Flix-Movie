@@ -17,6 +17,7 @@ let MoviePage: FC<Props> = ({ }) => {
     const { trendingMovie } = useAppSelector((state) => state.movieList);
     const { popularMovie } = useAppSelector((state) => state.movieList);
     const { upComingMovie } = useAppSelector((state) => state.movieList);
+    const { topRatedMovie } = useAppSelector((state) => state.movieList);
 
     return (
         <>
@@ -25,7 +26,7 @@ let MoviePage: FC<Props> = ({ }) => {
                 <CardList icon={LocalFireDepartmentIcon} title='Now Trending' data={trendingMovie?.trendingMovieList} page={trendingMovie?.page}/>
                 <CardList icon={CallMadeIcon} title='Up Coming' data={ upComingMovie?.upComingMovieList} page={upComingMovie?.page}/>
                 <CardList icon={MovieFilterIcon} title='Popular' data={popularMovie?.popularMoiveList} page={popularMovie?.page} />
-                {/* <CardList icon={StarRateIcon} title='Top Rated'/> */}
+                <CardList icon={StarRateIcon} title='Top Rated' data={topRatedMovie?.topRatedMovieList} page={topRatedMovie?.page}/>
             </Box>
         </>
     )

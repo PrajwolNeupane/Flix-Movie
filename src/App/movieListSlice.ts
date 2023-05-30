@@ -6,6 +6,8 @@ import getUpComingMovieList from './Reducer/getUpComingMovieList.ts';
 import appendUpComingMovieList from './Reducer/appendUpComingMovieList.ts';
 import getTrendingMovieList from './Reducer/getTrendingMovieList.ts';
 import appendTrendingMovieList from './Reducer/appendTrendingMovieList.ts';
+import getTopRatedMovieList from './Reducer/topRatedMovieLisr.ts';
+import appendTopRatedMovieList from './Reducer/appendTopRatedMovieList.ts';
 
 type InitialState = {
     popularMovie:{
@@ -18,6 +20,10 @@ type InitialState = {
     },
     trendingMovie:{
         trendingMovieList:Array<Movie>,
+        page:number
+    },
+    topRatedMovie:{
+        topRatedMovieList:Array<Movie>,
         page:number
     }
    
@@ -34,6 +40,10 @@ const initialState:InitialState = {
     },
     trendingMovie:{
         trendingMovieList:[],
+        page:1
+    },
+    topRatedMovie:{
+        topRatedMovieList:[],
         page:1
     }
 }
@@ -80,6 +90,15 @@ const MovieListSlice = createSlice({
         builder.addCase(appendTrendingMovieList.fulfilled,(state,action) => {
             if(state.trendingMovie.page != 1){
                 state.trendingMovie.trendingMovieList = state.trendingMovie.trendingMovieList.concat(action.payload)
+            }
+        })
+        //Builder for Top Rated Movie List
+        builder.addCase(getTopRatedMovieList.fulfilled,(state,action) => {
+            state.topRatedMovie.topRatedMovieList = action.payload
+        })
+        builder.addCase(appendTopRatedMovieList.fulfilled,(state,action) => {
+            if(state.topRatedMovie.page != 1){
+                state.topRatedMovie.topRatedMovieList = state.topRatedMovie.topRatedMovieList.concat(action.payload)
             }
         })
     }
