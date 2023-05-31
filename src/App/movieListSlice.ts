@@ -1,13 +1,6 @@
 import {createSlice,PayloadAction } from '@reduxjs/toolkit';
-import getPopularMovieList from './Reducer/getPopularMovieList';
-import appendPopularMovieList from './Reducer/appendPopularMovieList';
 import {Movie} from '../Interface/index.ts';
-import getUpComingMovieList from './Reducer/getUpComingMovieList.ts';
-import appendUpComingMovieList from './Reducer/appendUpComingMovieList.ts';
-import getTrendingMovieList from './Reducer/getTrendingMovieList.ts';
-import appendTrendingMovieList from './Reducer/appendTrendingMovieList.ts';
-import getTopRatedMovieList from './Reducer/topRatedMovieLisr.ts';
-import appendTopRatedMovieList from './Reducer/appendTopRatedMovieList.ts';
+import {appendPopularMovieList,getUpComingMovieList,getTrendingMovieList,getPopularMovieList,getTopRatedMovieList, appendTopRatedMovieList, appendUpComingMovieList, appendTrendingMovieList,} from '../App/Reducer/movieReducer.ts';
 
 type InitialState = {
     popularMovie:{
@@ -62,6 +55,9 @@ const MovieListSlice = createSlice({
         },
         setTrendingPage:(state,action:PayloadAction<any>) => {
             state.trendingMovie.page = action.payload
+        },
+        setTopRatedPage:(state,action:PayloadAction<any>) => {
+            state.topRatedMovie.page = action.payload
         }
     },
     extraReducers:(builder) => {
@@ -106,4 +102,4 @@ const MovieListSlice = createSlice({
 
 
 export default MovieListSlice.reducer;
-export const {setPopularPage,setUpComingPage} = MovieListSlice.actions; 
+export const {setPopularPage,setUpComingPage,setTrendingPage,setTopRatedPage} = MovieListSlice.actions; 

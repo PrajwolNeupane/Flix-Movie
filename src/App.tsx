@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from './App/store';
 import { useEffect } from 'react';
 import {appendPopularMovieList,getUpComingMovieList,getTrendingMovieList,getPopularMovieList,getTopRatedMovieList, appendTopRatedMovieList, appendUpComingMovieList, appendTrendingMovieList,} from './App/Reducer/movieReducer.ts';
 import TVSeriesPage from './Page/TVSeriesPage';
+import { getPopularSeriesList ,appendPopularSeriesList, getTopRatedSeriesList} from './App/Reducer/seriesReducer.ts';
 
 //Lazy Import
 const SignupPage = lazy(() => import('./Page/SignupPage'));
@@ -17,10 +18,16 @@ const LoginPage = lazy(() => import('./Page/LoginPage'));
 function App() {
 
   const dispatch = useAppDispatch();
-  const popularPage = useAppSelector((state) => state.movieList.popularMovie.page);
-  const upComingPage = useAppSelector((state) => state.movieList.upComingMovie.page);
-  const trendingPage = useAppSelector((state) => state.movieList.trendingMovie.page);
-  const topRatedPage = useAppSelector((state) => state.movieList.topRatedMovie.page);
+
+  //Movie Page
+  const popularMoviePage = useAppSelector((state) => state.movieList.popularMovie.page);
+  const upComingMoviePage = useAppSelector((state) => state.movieList.upComingMovie.page);
+  const trendingMoviePage = useAppSelector((state) => state.movieList.trendingMovie.page);
+  const topRatedMoviePage = useAppSelector((state) => state.movieList.topRatedMovie.page);
+
+  //Series Page
+  const popularSeriesPage = useAppSelector((state) => state.seriesList.popularSeries.page);
+  const topRatedSeriesPage = useAppSelector((state) => state.seriesList.topRatedSeries.page);
 
 
   useEffect(() => {
@@ -28,32 +35,45 @@ function App() {
     dispatch(getUpComingMovieList());
     dispatch(getTrendingMovieList());
     dispatch(getTopRatedMovieList())
+    dispatch(getPopularSeriesList());
+    dispatch(getTopRatedSeriesList());
   }, [dispatch]);
 
   useEffect(() => {
-    if (popularPage != 1) {
-      dispatch(appendPopularMovieList(popularPage));
+    if (popularMoviePage != 1) {
+      dispatch(appendPopularMovieList(popularMoviePage));
     }
-  }, [popularPage]);
+  }, [popularMoviePage]);
 
   useEffect(() => {
-    if (trendingPage != 1) {
-      dispatch(appendTrendingMovieList(trendingPage));
+    if (trendingMoviePage != 1) {
+      dispatch(appendTrendingMovieList(trendingMoviePage));
     }
-  }, [trendingPage]);
+  }, [trendingMoviePage]);
 
   useEffect(() => {
-    if (upComingPage != 1) {
-      dispatch(appendUpComingMovieList(upComingPage));
+    if (upComingMoviePage != 1) {
+      dispatch(appendUpComingMovieList(upComingMoviePage));
     }
-  }, [upComingPage]);
+  }, [upComingMoviePage]);
 
   useEffect(() => {
-    if (topRatedPage != 1) {
-      dispatch(appendTopRatedMovieList(topRatedPage));
+    if (topRatedMoviePage != 1) {
+      dispatch(appendTopRatedMovieList(topRatedMoviePage));
     }
-  }, [topRatedPage]);
+  }, [topRatedMoviePage]);
 
+  useEffect(() => {
+    if(popularSeriesPage != 1){
+      dispatch(appendPopularSeriesList(popularSeriesPage));
+    }
+  }, [popularSeriesPage]);
+
+  useEffect(() => {
+    if(topRatedSeriesPage != 1){
+      dispatch(appendTopRatedMovieList(topRatedSeriesPage));
+    }
+  }, [topRatedSeriesPage]);
 
   return (
     <Routes>

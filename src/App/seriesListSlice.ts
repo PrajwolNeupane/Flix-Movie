@@ -1,6 +1,6 @@
 import {createSlice,PayloadAction } from '@reduxjs/toolkit';
 import {Series} from '../Interface/index.ts';
-
+import { getPopularSeriesList,appendPopularSeriesList, getTopRatedSeriesList, appendTopRatedSeriesList } from './Reducer/seriesReducer.ts';
 
 type InitialState = {
     popularSeries:{
@@ -15,8 +15,8 @@ type InitialState = {
         trendingMovieList:Array<Series>,
         page:number
     },
-    topRatedMovie:{
-        topRatedMovieList:Array<Series>,
+    topRatedSeries:{
+        topRatedSeriesList:Array<Series>,
         page:number
     }
    
@@ -35,16 +35,15 @@ const initialState:InitialState = {
         trendingMovieList:[],
         page:1
     },
-    topRatedMovie:{
-        topRatedMovieList:[],
+    topRatedSeries:{
+        topRatedSeriesList:[],
         page:1
     }
 }
 
 
-
-const MovieListSlice = createSlice({
-    name:"MovieList",
+const SeriesListSlice = createSlice({
+    name:"SeriesList",
     initialState,
     reducers:{
         setPopularPage:(state,action:PayloadAction<any>) => {
@@ -55,48 +54,51 @@ const MovieListSlice = createSlice({
         },
         setTrendingPage:(state,action:PayloadAction<any>) => {
             state.trendingMovie.page = action.payload
+        },
+        setTopRatedPage:(state,action:PayloadAction<any>)=>{
+            state.topRatedSeries.page = action.payload
         }
     },
-    // extraReducers:(builder) => {
-    //     //Builder for Popular Movie List
-    //     builder.addCase(getPopularMovieList.fulfilled,(state,action) => {
-    //         state.popularMovie.popularMoiveList = action.payload
-    //     })
-    //     builder.addCase(appendPopularMovieList.fulfilled,(state,action) => {
-    //         if(state.popularMovie.page != 1){
-    //             state.popularMovie.popularMoiveList = state.popularMovie.popularMoiveList.concat(action.payload)
-    //         }
-    //     })
-    //     //Builder for Up Coming Movie List
-    //     builder.addCase(getUpComingMovieList.fulfilled,(state,action) => {
-    //         state.upComingMovie.upComingMovieList = action.payload
-    //     })
-    //     builder.addCase(appendUpComingMovieList.fulfilled,(state,action) => {
-    //         if(state.upComingMovie.page != 1){
-    //             state.upComingMovie.upComingMovieList = state.upComingMovie.upComingMovieList.concat(action.payload)
-    //         }
-    //     })
-    //     //Builder for Trending Movie List
-    //     builder.addCase(getTrendingMovieList.fulfilled,(state,action) => {
-    //         state.trendingMovie.trendingMovieList = action.payload
-    //     })
-    //     builder.addCase(appendTrendingMovieList.fulfilled,(state,action) => {
-    //         if(state.trendingMovie.page != 1){
-    //             state.trendingMovie.trendingMovieList = state.trendingMovie.trendingMovieList.concat(action.payload)
-    //         }
-    //     })
-    //     //Builder for Top Rated Movie List
-    //     builder.addCase(getTopRatedMovieList.fulfilled,(state,action) => {
-    //         state.topRatedMovie.topRatedMovieList = action.payload
-    //     })
-    //     builder.addCase(appendTopRatedMovieList.fulfilled,(state,action) => {
-    //         if(state.topRatedMovie.page != 1){
-    //             state.topRatedMovie.topRatedMovieList = state.topRatedMovie.topRatedMovieList.concat(action.payload)
-    //         }
-    //     })
-    // }
+    extraReducers:(builder) => {
+        //Builder for Popular Movie List
+        builder.addCase(getPopularSeriesList.fulfilled,(state,action) => {
+            state.popularSeries.popularSeriesList = action.payload
+        })
+        builder.addCase(appendPopularSeriesList.fulfilled,(state,action) => {
+            if(state.popularSeries.page != 1){
+                state.popularSeries.popularSeriesList = state.popularSeries.popularSeriesList.concat(action.payload)
+            }
+        })
+        // //Builder for Up Coming Movie List
+        // builder.addCase(getUpComingMovieList.fulfilled,(state,action) => {
+        //     state.upComingMovie.upComingMovieList = action.payload
+        // })
+        // builder.addCase(appendUpComingMovieList.fulfilled,(state,action) => {
+        //     if(state.upComingMovie.page != 1){
+        //         state.upComingMovie.upComingMovieList = state.upComingMovie.upComingMovieList.concat(action.payload)
+        //     }
+        // })
+        // //Builder for Trending Movie List
+        // builder.addCase(getTrendingMovieList.fulfilled,(state,action) => {
+        //     state.trendingMovie.trendingMovieList = action.payload
+        // })
+        // builder.addCase(appendTrendingMovieList.fulfilled,(state,action) => {
+        //     if(state.trendingMovie.page != 1){
+        //         state.trendingMovie.trendingMovieList = state.trendingMovie.trendingMovieList.concat(action.payload)
+        //     }
+        // })
+        //Builder for Top Rated Movie List
+        builder.addCase(getTopRatedSeriesList.fulfilled,(state,action) => {
+            state.topRatedSeries.topRatedSeriesList = action.payload
+        })
+        builder.addCase(appendTopRatedSeriesList.fulfilled,(state,action) => {
+            if(state.topRatedSeries.page != 1){
+                state.topRatedSeries.topRatedSeriesList = state.topRatedSeries.topRatedSeriesList.concat(action.payload)
+            }
+        })
+    }
 });
 
 
-export default MovieListSlice.reducer;
-export const {setPopularPage,setUpComingPage} = MovieListSlice.actions; 
+export default SeriesListSlice.reducer;
+export const {setPopularPage,setUpComingPage,setTopRatedPage,setTrendingPage} = SeriesListSlice.actions; 
