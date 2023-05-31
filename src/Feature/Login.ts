@@ -4,7 +4,13 @@ import {AuthErrorCode} from '../Const/index.ts';
 
 const login = (email:string,password:string,isSave:boolean,success: () => void,error:(message:string)=>void ) => {
    signInWithEmailAndPassword(auth,email,password).then(()=>{
-    localStorage.setItem("saveAuth",`${isSave}`);
+    if(isSave){
+        localStorage.setItem("saveAuth",`${isSave}`);
+        sessionStorage.removeItem("saveAuth");
+    }else{
+        sessionStorage.setItem("saveAuth",`${true}`)
+        localStorage.removeItem("saveAuth");
+    }
     success();
    }).catch((e) => {
     var curr = AuthErrorCode.codes.filter((curr) => {

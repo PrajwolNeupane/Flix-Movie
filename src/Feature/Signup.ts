@@ -6,7 +6,13 @@ const Signup = (name:string,email:string,password:string,isSave:boolean,success:
     createUserWithEmailAndPassword(auth,email,password).then(async()=>{
         if(auth.currentUser){
             await updateProfile(auth.currentUser,{displayName:name});
-            localStorage.setItem("saveAuth",`${isSave}`);
+            if(isSave){
+                localStorage.setItem("saveAuth",`${isSave}`);
+                sessionStorage.removeItem("saveAuth");
+            }else{
+                sessionStorage.setItem("saveAuth",`${true}`)
+                localStorage.removeItem("saveAuth");
+            }
             success();
         }
         else{
