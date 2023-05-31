@@ -5,13 +5,9 @@ import LayOut from './Component/Layout/Layout';
 import ContactPage from './Page/ContactPage';
 import MoviePage from './Page/MoviePage';
 import ProtectiveRoute from './Component/Layout/ProtectiveRoute';
-import getPopularMovieList from './App/Reducer/getPopularMovieList';
 import { useAppDispatch, useAppSelector } from './App/store';
 import { useEffect } from 'react';
-import appendPopularMovieList from './App/Reducer/appendPopularMovieList';
-import getUpComingMovieList from './App/Reducer/getUpComingMovieList';
-import getTrendingMovieList from './App/Reducer/getTrendingMovieList';
-import getTopRatedMovieList from './App/Reducer/topRatedMovieLisr';
+import {appendPopularMovieList,getUpComingMovieList,getTrendingMovieList,getPopularMovieList,getTopRatedMovieList, appendTopRatedMovieList, appendUpComingMovieList, appendTrendingMovieList,} from './App/Reducer/movieReducer.ts';
 import TVSeriesPage from './Page/TVSeriesPage';
 
 //Lazy Import
@@ -42,19 +38,19 @@ function App() {
 
   useEffect(() => {
     if (trendingPage != 1) {
-      dispatch(appendPopularMovieList(trendingPage));
+      dispatch(appendTrendingMovieList(trendingPage));
     }
   }, [trendingPage]);
 
   useEffect(() => {
     if (upComingPage != 1) {
-      dispatch(appendPopularMovieList(upComingPage));
+      dispatch(appendUpComingMovieList(upComingPage));
     }
   }, [upComingPage]);
 
   useEffect(() => {
     if (topRatedPage != 1) {
-      dispatch(appendPopularMovieList(topRatedPage));
+      dispatch(appendTopRatedMovieList(topRatedPage));
     }
   }, [topRatedPage]);
 

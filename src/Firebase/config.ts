@@ -2,12 +2,12 @@ import { initializeApp } from "firebase/app";
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC2CJyU3dFWF94QTau62rdu3m-SvatawRo",
-  authDomain: "flix-hive.firebaseapp.com",
-  projectId: "flix-hive",
-  storageBucket: "flix-hive.appspot.com",
-  messagingSenderId: "495543220024",
-  appId: "1:495543220024:web:fe29e6433c1e9d9a5473cd"
+  apiKey: import.meta.env.VITE_REACT_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_REACT_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_REACT_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_REACT_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_REACT_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_REACT_APP_ID
 };
 
 
