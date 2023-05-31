@@ -1,6 +1,6 @@
 import { Heading, VStack ,Text, Textarea,Button,Image} from '@chakra-ui/react';
 import { useForm } from "react-hook-form";
-import { LoginInput, successToast, errorToast } from '../Component/CusomComponents';
+import { LoginInput } from '../Component/CusomComponents';
 import Groot from '../Assets/Image/Groot.png';
 import {FC} from 'react';
 
@@ -10,7 +10,7 @@ interface Props{
 
 let ContactPage:FC<Props> = ({}) => {
 
-    const { register, formState: { errors }, handleSubmit } = useForm<any>();
+    const { register, handleSubmit } = useForm<any>();
 
     const onSubmit = handleSubmit(data => {
         console.log({ ...data})

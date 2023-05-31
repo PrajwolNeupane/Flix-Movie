@@ -1,10 +1,10 @@
 import { FC } from 'react';
 import Header from '../Component/Header';
 import { Box } from '@chakra-ui/react';
-import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
+// import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import MovieFilterIcon from '@mui/icons-material/MovieFilter';
 import StarRateIcon from '@mui/icons-material/StarRate';
-import CallMadeIcon from '@mui/icons-material/CallMade';
+// import CallMadeIcon from '@mui/icons-material/CallMade';
 import CardList from '../Component/CardList';
 import { useAppDispatch, useAppSelector } from '../App/store';
 import { setPopularPage,setTopRatedPage } from '../App/seriesListSlice';
