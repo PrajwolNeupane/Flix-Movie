@@ -1,5 +1,5 @@
-import { Button, HStack, Heading, Text, VStack, Collapse,useToast } from '@chakra-ui/react';
-import {successToast,errorToast} from '../Component/CusomComponents.tsx';
+import { Button, HStack, Heading, Text, VStack, Collapse, useToast, Avatar } from '@chakra-ui/react';
+import { successToast, errorToast } from '../Component/CusomComponents.tsx';
 import { Link } from 'react-router-dom';
 import { FC, useState } from 'react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
@@ -20,11 +20,11 @@ let NavBar: FC<Props> = ({ }) => {
     const navigate = useNavigate();
 
     const signOut = () => {
-        Logout(()=>{
+        Logout(() => {
             navigate("/");
-            successToast(toast,"Log Out","Successfully");
-        },(e)=>{
-            errorToast(toast,"Log Out Fail",e);
+            successToast(toast, "Log Out", "Successfully");
+        }, (e) => {
+            errorToast(toast, "Log Out Fail", e);
         });
     }
 
@@ -36,7 +36,7 @@ let NavBar: FC<Props> = ({ }) => {
                 <HStack gap={"30px"}>
                     <Link to="/"><Text fontFamily={"Nunito"} fontSize={"xs"} color={"text.100"}>Home</Text></Link>
                     <Link to="/movie"><Text fontFamily={"Nunito"} fontSize={"xs"} color={"text.100"}>Movies</Text></Link>
-                    <Link to="/"><Text fontFamily={"Nunito"} fontSize={"xs"} color={"text.100"}>TV Series</Text></Link>
+                    <Link to="/series"><Text fontFamily={"Nunito"} fontSize={"xs"} color={"text.100"}>TV Series</Text></Link>
                     <HStack as={"button"} onClick={() => {
                         setMenu(!menu);
                     }}>
@@ -46,10 +46,17 @@ let NavBar: FC<Props> = ({ }) => {
                     <Link to="/contact"><Text fontFamily={"Nunito"} fontSize={"xs"} color={"text.100"}>Contact Us</Text></Link>
                     {
                         auth != undefined ? <>
-                            <Button fontFamily={"Nunito"} fontSize={"xs"} p="0px 15px" height={"35px"} color={"dark.700"} bgColor={"brand.400"} _hover={{ bgColor: "brand.500" }} onClick={()=>{
-                               signOut();
+                            <HStack align={"center"}>
+                                <Avatar src={auth?.photoURL || undefined} w={"40px"} height={"40px"}/>
+                                <VStack align={"flex-start"} gap={"0px"}>
+                                    <Text lineHeight={"50%"} fontFamily={"Nunito"} fontSize={"xxs"} color={"text.100"}>Hi,</Text>
+                                    <Text lineHeight={"50%"} fontFamily={"Nunito"} fontSize={"xs"} color={"text.100"}>{auth.displayName?.split(/\s/)[0]}</Text>
+                                </VStack>
+                            </HStack>
+                            <Button fontFamily={"Nunito"} fontSize={"xs"} p="0px 15px" height={"35px"} color={"dark.700"} bgColor={"brand.400"} _hover={{ bgColor: "brand.500" }} onClick={() => {
+                                signOut();
                             }}>
-                               Log Out
+                                Log Out
                             </Button>
                         </> :
                             <>

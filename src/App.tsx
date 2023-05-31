@@ -12,6 +12,7 @@ import appendPopularMovieList from './App/Reducer/appendPopularMovieList';
 import getUpComingMovieList from './App/Reducer/getUpComingMovieList';
 import getTrendingMovieList from './App/Reducer/getTrendingMovieList';
 import getTopRatedMovieList from './App/Reducer/topRatedMovieLisr';
+import TVSeriesPage from './Page/TVSeriesPage';
 
 //Lazy Import
 const SignupPage = lazy(() => import('./Page/SignupPage'));
@@ -64,6 +65,7 @@ function App() {
         <Route path='/' element={<LayOut />}>
           <Route index element={<HomePage />} />
           <Route path='/movie' element={<MoviePage />} />
+          <Route path='/series' element={<TVSeriesPage />} />
           <Route path='/contact' element={<ContactPage />} />
         </Route>
         <Route path='/log-in' element={<Suspense fallback="Loading..."><LoginPage /></Suspense>} />
