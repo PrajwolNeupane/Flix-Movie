@@ -4,6 +4,7 @@ import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import { Card } from '../Component/CusomComponents';
 import { Movie, Series } from '../Interface/index.ts';
 
+
 interface Props {
     icon?: typeof LocalFireDepartmentIcon,
     title: string,
@@ -32,7 +33,7 @@ let CardList: FC<Props> = ({ icon, title, movieData, page, appendData,seiresData
                     {
                         movieData?.slice(0, limit).map((curr: Movie, index: number) => {
                             return (
-                                <Card title={curr.title} key={index} image={curr.poster_path} />
+                                <Card title={curr.title} key={index} image={curr.poster_path} date={curr.release_date} genre={([curr?.genre_ids["0"],curr?.genre_ids["1"]])}/>
                             )
                         })
                     }
@@ -60,7 +61,7 @@ let CardList: FC<Props> = ({ icon, title, movieData, page, appendData,seiresData
                     {
                         seiresData?.slice(0, limit).map((curr: Series, index: number) => {
                             return (
-                                <Card title={curr.name} key={index} image={curr.poster_path} />
+                                <Card title={curr.name} key={index} image={curr.poster_path} date={curr.first_air_date} genre={([curr?.genre_ids["0"],curr?.genre_ids["1"]])}/>
                             )
                         })
                     }

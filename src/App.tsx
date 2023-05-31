@@ -108,8 +108,4 @@ function App() {
   )
 }
 
-export default App
-function addUpComingSeries(): any {
-  throw new Error('Function not implemented.');
-}
-
+export default App;
