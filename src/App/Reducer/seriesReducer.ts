@@ -39,18 +39,18 @@ export const appendTopRatedSeriesList =  createAsyncThunk('TopRatedSeriesList/ap
     }
 })
 
-export const getUpComingMovieList = createAsyncThunk('UpComingMovieList/getUpComingMovieList',async()=>{
+export const getUpComingSeriesList = createAsyncThunk('UpComingSeriesList/getUpComingSeriesList',async()=>{
     try{
-        const response = await axios(`https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1&api_key=${import.meta.env.VITE_REACT_API_KEY}`);
+        const response = await axios(`https://api.themoviedb.org/3/tv/on_the_air?language=en-US&page=1&api_key=${import.meta.env.VITE_REACT_API_KEY}`);
         return response.data.results
     }catch(error){
         console.log(error);
     }
 })
 
-export const appendUpComingMovieList =  createAsyncThunk('UpComingMovieList/appendUpComingMovieList',async(page:number)=>{
+export const appendUpComingSeriesList =  createAsyncThunk('UpComingSeriesList/appendUpComingSeriesList',async(page:number)=>{
     try{
-        const response = await axios(`https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=${page}&api_key=${import.meta.env.VITE_REACT_API_KEY}`);
+        const response = await axios(`https://api.themoviedb.org/3/tv/on_the_air?language=en-US&page=${page}&api_key=${import.meta.env.VITE_REACT_API_KEY}`);
         return response.data.results
        
     }catch(error){
@@ -58,18 +58,18 @@ export const appendUpComingMovieList =  createAsyncThunk('UpComingMovieList/appe
     }
 })
 
-export  const getTrendingMovieList = createAsyncThunk('TrendingMovieList/getTrendingMovieList',async()=>{
+export  const getTrendingSeriesList = createAsyncThunk('TrendingSeriesList/getTrendingSeriesList',async()=>{
     try{
-        const response = await axios(`https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1&api_key=${import.meta.env.VITE_REACT_API_KEY}`);
+        const response = await axios(`https://api.themoviedb.org/3/trending/tv/day?language=en-US&page=1&api_key=${import.meta.env.VITE_REACT_API_KEY}`);
         return response.data.results
     }catch(error){
         console.log(error);
     }
 })
 
-export const appendTrendingMovieList =  createAsyncThunk('TrendingMovieList/appendTrendingMovieList',async(page:number)=>{
+export const appendTrendingSeriesList =  createAsyncThunk('TrendingSeriesList/appendTrendingSeriesList',async(page:number)=>{
     try{
-        const response = await axios(`https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=${page}&api_key=${import.meta.env.VITE_REACT_API_KEY}`);
+        const response = await axios(`https://api.themoviedb.org/3/trending/tv/day?language=en-US&page=${page}&api_key=${import.meta.env.VITE_REACT_API_KEY}`);
         return response.data.results
        
     }catch(error){

@@ -60,7 +60,7 @@ export const appendUpComingMovieList =  createAsyncThunk('UpComingMovieList/appe
 
 export  const getTrendingMovieList = createAsyncThunk('TrendingMovieList/getTrendingMovieList',async()=>{
     try{
-        const response = await axios(`https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1&api_key=${import.meta.env.VITE_REACT_API_KEY}`);
+        const response = await axios(`https://api.themoviedb.org/3/trending/movie/day?language=en-US&page=1&api_key=${import.meta.env.VITE_REACT_API_KEY}`);
         return response.data.results
     }catch(error){
         console.log(error);
@@ -69,7 +69,7 @@ export  const getTrendingMovieList = createAsyncThunk('TrendingMovieList/getTren
 
 export const appendTrendingMovieList =  createAsyncThunk('TrendingMovieList/appendTrendingMovieList',async(page:number)=>{
     try{
-        const response = await axios(`https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=${page}&api_key=${import.meta.env.VITE_REACT_API_KEY}`);
+        const response = await axios(`https://api.themoviedb.org/3/trending/movie/day?language=en-US&page=${page}&api_key=${import.meta.env.VITE_REACT_API_KEY}`);
         return response.data.results
        
     }catch(error){

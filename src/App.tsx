@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from './App/store';
 import { useEffect } from 'react';
 import {appendPopularMovieList,getUpComingMovieList,getTrendingMovieList,getPopularMovieList,getTopRatedMovieList, appendTopRatedMovieList, appendUpComingMovieList, appendTrendingMovieList,} from './App/Reducer/movieReducer.ts';
 import TVSeriesPage from './Page/TVSeriesPage';
-import { getPopularSeriesList ,appendPopularSeriesList, getTopRatedSeriesList} from './App/Reducer/seriesReducer.ts';
+import { getPopularSeriesList ,appendPopularSeriesList, getTopRatedSeriesList, appendTrendingSeriesList, getTrendingSeriesList, getUpComingSeriesList,appendUpComingSeriesList} from './App/Reducer/seriesReducer.ts';
 
 //Lazy Import
 const SignupPage = lazy(() => import('./Page/SignupPage'));
@@ -28,6 +28,8 @@ function App() {
   //Series Page
   const popularSeriesPage = useAppSelector((state) => state.seriesList.popularSeries.page);
   const topRatedSeriesPage = useAppSelector((state) => state.seriesList.topRatedSeries.page);
+  const trendingSeriesPage = useAppSelector((state) => state.seriesList.trendingSeries.page);
+  const upComingSeriesPage = useAppSelector((state) => state.seriesList.upComingSeries.page);
 
 
   useEffect(() => {
@@ -37,6 +39,8 @@ function App() {
     dispatch(getTopRatedMovieList())
     dispatch(getPopularSeriesList());
     dispatch(getTopRatedSeriesList());
+    dispatch(getTrendingSeriesList());
+    dispatch(getUpComingSeriesList());
   }, [dispatch]);
 
   useEffect(() => {
@@ -75,6 +79,19 @@ function App() {
     }
   }, [topRatedSeriesPage]);
 
+  useEffect(() => {
+    if(trendingSeriesPage != 1){
+      dispatch(appendTrendingSeriesList(trendingSeriesPage));
+    }
+  }, [trendingSeriesPage]);
+
+  useEffect(() => {
+    if(upComingSeriesPage != 1){
+      dispatch(appendUpComingSeriesList(upComingSeriesPage +1 ));
+    }
+  }, [upComingSeriesPage]);
+
+
   return (
     <Routes>
       <Route path='/' element={<ProtectiveRoute/>}>
@@ -92,3 +109,7 @@ function App() {
 }
 
 export default App
+function addUpComingSeries(): any {
+  throw new Error('Function not implemented.');
+}
+

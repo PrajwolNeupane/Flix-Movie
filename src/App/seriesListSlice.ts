@@ -1,18 +1,18 @@
 import {createSlice,PayloadAction } from '@reduxjs/toolkit';
 import {Series} from '../Interface/index.ts';
-import { getPopularSeriesList,appendPopularSeriesList, getTopRatedSeriesList, appendTopRatedSeriesList } from './Reducer/seriesReducer.ts';
+import { getPopularSeriesList,appendPopularSeriesList, getTopRatedSeriesList, appendTopRatedSeriesList, getTrendingSeriesList, appendTrendingSeriesList, getUpComingSeriesList, appendUpComingSeriesList } from './Reducer/seriesReducer.ts';
 
 type InitialState = {
     popularSeries:{
         popularSeriesList:Array<Series>,
         page:number
     },
-    upComingMovie:{
-        upComingMovieList:Array<Series>,
+    upComingSeries:{
+        upComingSeriesList:Array<Series>,
         page:number
     },
-    trendingMovie:{
-        trendingMovieList:Array<Series>,
+    trendingSeries:{
+        trendingSeriesList:Array<Series>,
         page:number
     },
     topRatedSeries:{
@@ -27,12 +27,12 @@ const initialState:InitialState = {
         popularSeriesList:[],
         page:1
     },
-    upComingMovie:{
-        upComingMovieList:[],
+    upComingSeries:{
+        upComingSeriesList:[],
         page:1
     },
-    trendingMovie:{
-        trendingMovieList:[],
+    trendingSeries:{
+        trendingSeriesList:[],
         page:1
     },
     topRatedSeries:{
@@ -50,10 +50,10 @@ const SeriesListSlice = createSlice({
             state.popularSeries.page = action.payload
         },
         setUpComingPage:(state,action:PayloadAction<any>) => {
-            state.upComingMovie.page = action.payload
+            state.upComingSeries.page = action.payload
         },
         setTrendingPage:(state,action:PayloadAction<any>) => {
-            state.trendingMovie.page = action.payload
+            state.trendingSeries.page = action.payload
         },
         setTopRatedPage:(state,action:PayloadAction<any>)=>{
             state.topRatedSeries.page = action.payload
@@ -70,23 +70,23 @@ const SeriesListSlice = createSlice({
             }
         })
         // //Builder for Up Coming Movie List
-        // builder.addCase(getUpComingMovieList.fulfilled,(state,action) => {
-        //     state.upComingMovie.upComingMovieList = action.payload
-        // })
-        // builder.addCase(appendUpComingMovieList.fulfilled,(state,action) => {
-        //     if(state.upComingMovie.page != 1){
-        //         state.upComingMovie.upComingMovieList = state.upComingMovie.upComingMovieList.concat(action.payload)
-        //     }
-        // })
+        builder.addCase(getUpComingSeriesList.fulfilled,(state,action) => {
+            state.upComingSeries.upComingSeriesList = action.payload
+        })
+        builder.addCase(appendUpComingSeriesList.fulfilled,(state,action) => {
+            if(state.upComingSeries.page != 1){
+                state.upComingSeries.upComingSeriesList = state.upComingSeries.upComingSeriesList.concat(action.payload)
+            }
+        })
         // //Builder for Trending Movie List
-        // builder.addCase(getTrendingMovieList.fulfilled,(state,action) => {
-        //     state.trendingMovie.trendingMovieList = action.payload
-        // })
-        // builder.addCase(appendTrendingMovieList.fulfilled,(state,action) => {
-        //     if(state.trendingMovie.page != 1){
-        //         state.trendingMovie.trendingMovieList = state.trendingMovie.trendingMovieList.concat(action.payload)
-        //     }
-        // })
+        builder.addCase(getTrendingSeriesList.fulfilled,(state,action) => {
+            state.trendingSeries.trendingSeriesList= action.payload
+        })
+        builder.addCase(appendTrendingSeriesList.fulfilled,(state,action) => {
+            if(state.trendingSeries.page != 1){
+                state.trendingSeries.trendingSeriesList = state.trendingSeries.trendingSeriesList.concat(action.payload)
+            }
+        })
         //Builder for Top Rated Movie List
         builder.addCase(getTopRatedSeriesList.fulfilled,(state,action) => {
             state.topRatedSeries.topRatedSeriesList = action.payload
