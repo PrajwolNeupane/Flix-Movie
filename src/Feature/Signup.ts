@@ -5,7 +5,10 @@ import {AuthErrorCode} from '../Const/index.ts';
 const Signup = (name:string,email:string,password:string,isSave:boolean,success: () => void,error:(message:string)=>void ) => {
     createUserWithEmailAndPassword(auth,email,password).then(async()=>{
         if(auth.currentUser){
-            await updateProfile(auth.currentUser,{displayName:name});
+            await updateProfile(auth.currentUser,{
+                displayName:name,
+                photoURL:`https://robohash.org/${name}${Math.floor(Math.random() * 10)}`
+            });
             if(isSave){
                 localStorage.setItem("saveAuth",`${isSave}`);
                 sessionStorage.removeItem("saveAuth");
