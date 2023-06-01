@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import {appendPopularMovieList,getUpComingMovieList,getTrendingMovieList,getPopularMovieList,getTopRatedMovieList, appendTopRatedMovieList, appendUpComingMovieList, appendTrendingMovieList,} from './App/Reducer/movieReducer.ts';
 import TVSeriesPage from './Page/TVSeriesPage';
 import { getPopularSeriesList ,appendPopularSeriesList, getTopRatedSeriesList, appendTrendingSeriesList, getTrendingSeriesList, getUpComingSeriesList,appendUpComingSeriesList} from './App/Reducer/seriesReducer.ts';
+import SingleMoviePage from './Page/SingleMoviePage.tsx';
 
 //Lazy Import
 const SignupPage = lazy(() => import('./Page/SignupPage'));
@@ -100,6 +101,7 @@ function App() {
           <Route path='/movie' element={<MoviePage />} />
           <Route path='/series' element={<TVSeriesPage />} />
           <Route path='/contact' element={<ContactPage />} />
+          <Route path='/movie/:id' element={<SingleMoviePage />}/>
         </Route>
         <Route path='/log-in' element={<Suspense fallback="Loading..."><LoginPage /></Suspense>} />
         <Route path='/sign-up' element={<Suspense fallback="Loading..."><SignupPage /></Suspense>} />

@@ -5,7 +5,7 @@ import { LoginInput, successToast, errorToast } from '../Component/CusomComponen
 import { yupResolver } from '@hookform/resolvers/yup';
 import { loginDataInterface, loginSchema } from '../Interface/formSchema.ts';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import login from '../Feature/Login.ts';
 import BgImg from '../Assets/Image/BackgroundImage.png';
 import { ArrowBackIcon } from '@chakra-ui/icons';

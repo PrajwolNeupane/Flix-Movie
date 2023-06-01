@@ -33,7 +33,7 @@ let CardList: FC<Props> = ({ icon, title, movieData, page, appendData,seiresData
                     {
                         movieData?.slice(0, limit).map((curr: Movie, index: number) => {
                             return (
-                                <Card title={curr.title} key={index} image={curr.poster_path} date={curr.release_date} genre={([curr?.genre_ids["0"],curr?.genre_ids["1"]])}/>
+                                <Card title={curr.title} key={index} image={curr.poster_path} date={curr.release_date} genre={([curr?.genre_ids["0"],curr?.genre_ids["1"]])} id={curr?.id} />
                             )
                         })
                     }

@@ -39,37 +39,37 @@ export const LoginInput: FC<LoginInputProps> = ({ type, name, label, placeholder
     </>
   )
 }
-export const Card: FC<any> = ({ title, key, image,date ,genre}) => {
+export const Card: FC<any> = ({ title, key, image, date, genre, id }) => {
 
 
   return (
-    <VStack key={key} to={"/"} as={Link} width={"150px"} alignItems={"flex-start"} bgColor={"dark.900"} borderRadius={"5px"} overflow={"hidden"} _hover={{
-      ".gradient-box": {
-        opacity: 1
-      }
-    }}>
-      <VStack className='gradient-box' opacity={0} transitionDuration="300ms" w={"150px"} marginTop={"8px"} position={"absolute"} height={"200px"} borderTopRadius={"5px"} bgColor={'rgb(31, 29, 31,0.6)'} alignItems={"center"} justifyContent={"center"}>
-        <Icon as={PlayArrowRoundedIcon} fontSize={"xxxl"} color={"brand.400"} />
-      </VStack>
-      <ImageLoader src={`https://image.tmdb.org/t/p/original${image}`} alt="Loading" w="150px" height={"200px"} borderTopRadius={"5px"} />
-      <Heading lineHeight={"90%"} fontFamily={"Nunito"} fontWeight={"semibold"} color={"text.200"} fontSize={"xxs"}>{title}</Heading>
-      <Text lineHeight={"90%"} fontSize={"xxxs"} fontFamily={"Nunito"} fontWeight={"regular"} color={"text.300"}>{date}</Text>
-      <HStack flexWrap={"wrap"} alignItems={"start"} gap={"0px"} justifyContent={"start"}>
-        {
-          
-          setGenre(genre)?.map((curr:any,indx:number) => {
-            return (
-              <Text key={indx} lineHeight={"90%"} fontSize={"xxxs"} fontFamily={"Nunito"} fontWeight={"regular"} color={"brand.400"}>{curr.name}</Text>
-            )
-          })
+      <VStack key={key} to={`${id}`} as={Link} width={"150px"} alignItems={"flex-start"} bgColor={"dark.900"} borderRadius={"5px"} overflow={"hidden"} _hover={{
+        ".gradient-box": {
+          opacity: 1
         }
-      </HStack>
-    </VStack>
+      }}>
+        <VStack className='gradient-box' opacity={0} transitionDuration="300ms" w={"150px"} marginTop={"8px"} position={"absolute"} height={"200px"} borderTopRadius={"5px"} bgColor={'rgb(31, 29, 31,0.6)'} alignItems={"center"} justifyContent={"center"}>
+          <Icon as={PlayArrowRoundedIcon} fontSize={"xxxl"} color={"brand.400"} />
+        </VStack>
+        <ImageLoader src={`https://image.tmdb.org/t/p/original${image}`} alt="Loading" w="150px" height={"200px"} borderTopRadius={"5px"} />
+        <Heading lineHeight={"90%"} fontFamily={"Nunito"} fontWeight={"semibold"} color={"text.200"} fontSize={"xxs"}>{title}</Heading>
+        <Text lineHeight={"90%"} fontSize={"xxxs"} fontFamily={"Nunito"} fontWeight={"regular"} color={"text.300"}>{date}</Text>
+        <HStack flexWrap={"wrap"} alignItems={"start"} gap={"0px"} justifyContent={"start"}>
+          {
+
+            setGenre(genre)?.map((curr: any, indx: number) => {
+              return (
+                <Text key={indx} lineHeight={"90%"} fontSize={"xxxs"} fontFamily={"Nunito"} fontWeight={"regular"} color={"brand.400"}>{curr.name}</Text>
+              )
+            })
+          }
+        </HStack>
+      </VStack>
   )
 }
 
 export const ImageLoader: FC<any> = ({ alt, src, width, height }) => {
   return (
-    <Image as={LazyLoadImage} alt={alt} src={src} loading="lazy" height={height}  width={width} wrapperProps={{ style: { objectFit: 'cover' ,borderTopLeftRadius:"5px",borderTopRightRadius:"5px"} }}  effect='opacity'/>
+    <Image as={LazyLoadImage} alt={alt} src={src} loading="lazy" height={height} width={width} wrapperProps={{ style: { objectFit: 'cover', borderTopLeftRadius: "5px", borderTopRightRadius: "5px" } }} effect='opacity' />
   )
 }
