@@ -27,8 +27,6 @@ let SingleMoviePage: FC<Props> = ({ }) => {
     }, [id]);
 
 
-
-//todo
     return (
         <Box>
             <Text color={"brand.500"} fontWeight={"regular"} fontSize={"xxs"}>{movieData?.original_title}</Text>
