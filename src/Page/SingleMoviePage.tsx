@@ -2,7 +2,7 @@ import { Box, Text, Icon, VStack, HStack, Image, Heading } from '@chakra-ui/reac
 import { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { MovieDetail } from '../Interface';
+import { MovieCast, MovieDetail } from '../Interface';
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 
 interface Props {
@@ -13,6 +13,7 @@ let SingleMoviePage: FC<Props> = ({ }) => {
 
     const { id } = useParams();
     const [movieData, setMovieData] = useState<MovieDetail>();
+    const [movieCast, setMovieCast] = useState<MovieCast>();
 
     useEffect(() => {
         const getMovieDetails = async () => {
@@ -24,7 +25,17 @@ let SingleMoviePage: FC<Props> = ({ }) => {
 
             }
         }
+        const getMovieCast = async () => {
+            try {
+                const response = await axios(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${import.meta.env.VITE_REACT_API_KEY}`);
+                const data = response.data;
+                setMovieCast(data);
+            } catch (e) {
+                console.log(e);
+            }
+        }
         getMovieDetails();
+        getMovieCast();
     }, [id]);
 
 
@@ -48,15 +59,98 @@ let SingleMoviePage: FC<Props> = ({ }) => {
                 <VStack w={"75%"} alignItems={"flex-start"}>
                     <Heading fontFamily={"Nunito"} color={"text.200"} m={"10px 0px"} fontWeight={"semibold"} fontSize={"md"}>{movieData?.original_title}</Heading>
                     <Text fontFamily={"Nunito"} color={"text.100"} m={"10px 0px"} fontWeight={"regular"} fontSize={"xxs"}>{movieData?.overview}</Text>
-                    <HStack>
-                        <VStack>
-                            <Text fontFamily={"Nunito"} color={"text.500"} fontWeight={"medium"} fontSize={"xs"}>Type:</Text>
-                            <Text></Text>
-                        </VStack>
-                        <VStack>
-                            <Text fontFamily={"Nunito"} color={"text.500"} fontWeight={"regular"} fontSize={"xs"}>Movie</Text>
-                        </VStack>
-                    </HStack>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td style={{ width: "180px" }}>
+                                    <Text fontFamily={"Nunito"} color={"text.500"} fontWeight={"medium"} fontSize={"xxs"}>Type :</Text>
+                                </td>
+                                <td>
+                                    <Text fontFamily={"Nunito"} color={"text.500"} fontWeight={"regular"} fontSize={"xxs"}>Movie</Text>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><Text fontFamily={"Nunito"} color={"text.500"} fontWeight={"medium"} fontSize={"xxs"}>Country :</Text></td>
+                                <td>
+                                    <Text fontFamily={"Nunito"} color={"text.500"} fontWeight={"regular"} fontSize={"xxs"}>{movieData?.production_countries.map((curr, indx) => {
+                                        if (indx != movieData?.production_countries.length - 1) {
+                                            return (curr?.name + ", ")
+                                        } else {
+                                            return (curr?.name)
+                                        }
+                                    })}</Text>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <Text fontFamily={"Nunito"} color={"text.500"} fontWeight={"medium"} fontSize={"xxs"}>Genre :</Text>
+                                </td>
+                                <td>
+                                    <Text fontFamily={"Nunito"} color={"text.500"} fontWeight={"regular"} fontSize={"xxs"}>{
+                                        movieData?.genres?.map((curr, indx) => {
+                                            if (indx != movieData?.genres.length - 1) {
+                                                return (curr?.name + ", ")
+                                            } else {
+                                                return (curr?.name)
+                                            }
+                                        })
+                                    }</Text>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <Text fontFamily={"Nunito"} color={"text.500"} fontWeight={"medium"} fontSize={"xxs"}>Release :</Text></td>
+                                <td>
+
+                                    <Text fontFamily={"Nunito"} color={"text.500"} fontWeight={"regular"} fontSize={"xxs"}>
+                                        {movieData?.release_date}
+                                    </Text>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <Text fontFamily={"Nunito"} color={"text.500"} fontWeight={"medium"} fontSize={"xxs"} >Production Company:</Text>
+                                </td>
+                                <td>
+                                    <Text fontFamily={"Nunito"} color={"text.500"} fontWeight={"regular"} fontSize={"xxs"}>
+                                        {movieData?.production_companies.map((curr, indx) => {
+                                            if (indx != movieData?.production_companies.length - 1) {
+                                                return (curr?.name + ", ");
+                                            } else {
+                                                return (curr?.name);
+                                            }
+                                        })}
+                                    </Text>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <Text fontFamily={"Nunito"} color={"text.500"} fontWeight={"medium"} fontSize={"xxs"} >Tag :</Text>
+                                </td>
+                                <td>
+                                    <Text fontFamily={"Nunito"} color={"text.500"} fontWeight={"regular"} fontSize={"xxs"}>
+                                        {movieData?.tagline}
+                                    </Text>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <Text fontFamily={"Nunito"} color={"text.500"} fontWeight={"medium"} fontSize={"xxs"} >Cast :</Text>
+                                </td>
+                                <td>
+                                    <Text fontFamily={"Nunito"} color={"text.500"} fontWeight={"regular"} fontSize={"xxs"}>
+                                        {movieCast?.cast?.slice(0,6).map((curr,indx:number) => {
+                                            if(indx != movieCast?.cast.length - 1){
+                                                return (curr?.name+" - "+ curr?.character +", ")
+                                            }else{
+                                                return (curr?.name+" - "+ curr?.character)
+                                            }
+                                        })}
+                                    </Text>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </VStack>
             </HStack>
         </VStack>

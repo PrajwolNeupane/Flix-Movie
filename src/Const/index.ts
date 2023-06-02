@@ -101,6 +101,8 @@ export const GenreID:GenreIDInterface = {
         }
     ]
 }
+
+
 export const setGenre = (array:Array<number>) => {
     const filteredGenres = GenreID.genres.filter((genre) => array.includes(genre.id));
     return filteredGenres;
