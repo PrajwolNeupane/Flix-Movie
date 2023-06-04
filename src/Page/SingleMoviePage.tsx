@@ -1,9 +1,11 @@
 import { Box, Text, Icon, VStack, HStack, Image, Heading } from '@chakra-ui/react';
 import { FC, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import axios from 'axios';
-import { MovieCast, MovieDetail } from '../Interface';
+import { Movie, MovieCast, MovieDetail } from '../Interface';
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
+import CallMadeIcon from '@mui/icons-material/CallMade';
+import CardList from '../Component/CardList';
+import axios from 'axios';
 
 interface Props {
 
@@ -14,6 +16,8 @@ let SingleMoviePage: FC<Props> = ({ }) => {
     const { id } = useParams();
     const [movieData, setMovieData] = useState<MovieDetail>();
     const [movieCast, setMovieCast] = useState<MovieCast>();
+    const [page, setPage] = useState<number>(1);
+    const [similarMovies,setSimilarMovies] = useState<Array<Movie>>([]);
 
     useEffect(() => {
         const getMovieDetails = async () => {
@@ -34,8 +38,18 @@ let SingleMoviePage: FC<Props> = ({ }) => {
                 console.log(e);
             }
         }
+        const getSimilarMovie = async () => {
+            try {
+                const response = await axios(`https://api.themoviedb.org/3/discover/movie?with_genres=28,16&api_key=${import.meta.env.VITE_REACT_API_KEY}&page=${page}`);
+                const data = response.data.results
+                setSimilarMovies(data);
+            } catch (e) {
+                console.log(e);
+            }
+        }
         getMovieDetails();
         getMovieCast();
+        getSimilarMovie();
     }, [id]);
 
 
@@ -54,7 +68,7 @@ let SingleMoviePage: FC<Props> = ({ }) => {
                     <Text cursor={"pointer"} _hover={{ color: "brand.500" }} color={"text.500"} m={"10px 0px"} fontWeight={"medium"} fontSize={"xs"}>DoodStream</Text>
                 </HStack>
             </Box>
-            <HStack gap={"40px"} alignItems={"flex-start"}>
+            <HStack gap={"40px"} pb={"40px"} alignItems={"flex-start"}>
                 <Image src={"https://image.tmdb.org/t/p/original" + movieData?.poster_path} w={"25%"} height={"400px"} borderRadius={"5px"} objectFit={'cover'} />
                 <VStack w={"75%"} alignItems={"flex-start"}>
                     <Heading fontFamily={"Nunito"} color={"text.200"} m={"10px 0px"} fontWeight={"semibold"} fontSize={"md"}>{movieData?.original_title}</Heading>
@@ -139,11 +153,11 @@ let SingleMoviePage: FC<Props> = ({ }) => {
                                 </td>
                                 <td>
                                     <Text fontFamily={"Nunito"} color={"text.500"} fontWeight={"regular"} fontSize={"xxs"}>
-                                        {movieCast?.cast?.slice(0,6).map((curr,indx:number) => {
-                                            if(indx != 5){
-                                                return (<Link to={`https://www.google.com/search?q=${curr?.name}`} target='_blank'>{curr?.name+" - "+ curr?.character+", "}</Link>)
-                                            }else{
-                                                return (<Link to={`https://www.google.com/search?q=${curr?.name}`} target='_blank'>{curr?.name+" - "+ curr?.character}</Link>)
+                                        {movieCast?.cast?.slice(0, 6).map((curr, indx: number) => {
+                                            if (indx != 5) {
+                                                return (<Link to={`https://www.google.com/search?q=${curr?.name}`} target='_blank'>{curr?.name + " - " + curr?.character + ", "}</Link>)
+                                            } else {
+                                                return (<Link to={`https://www.google.com/search?q=${curr?.name}`} target='_blank'>{curr?.name + " - " + curr?.character}</Link>)
                                             }
                                         })}
                                     </Text>
@@ -153,6 +167,7 @@ let SingleMoviePage: FC<Props> = ({ }) => {
                     </table>
                 </VStack>
             </HStack>
+            <CardList icon={CallMadeIcon} title='Up Coming' movieData={similarMovies} page={page} appendData={(page) => setPage(page + 1)} />
         </VStack>
     )
 }
