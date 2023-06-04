@@ -1,6 +1,6 @@
 import { Box, Text, Icon, VStack, HStack, Image, Heading } from '@chakra-ui/react';
 import { FC, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { MovieCast, MovieDetail } from '../Interface';
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
@@ -140,10 +140,10 @@ let SingleMoviePage: FC<Props> = ({ }) => {
                                 <td>
                                     <Text fontFamily={"Nunito"} color={"text.500"} fontWeight={"regular"} fontSize={"xxs"}>
                                         {movieCast?.cast?.slice(0,6).map((curr,indx:number) => {
-                                            if(indx != movieCast?.cast.length - 1){
-                                                return (curr?.name+" - "+ curr?.character +", ")
+                                            if(indx != 5){
+                                                return (<Link to={`https://www.google.com/search?q=${curr?.name}`} target='_blank'>{curr?.name+" - "+ curr?.character+", "}</Link>)
                                             }else{
-                                                return (curr?.name+" - "+ curr?.character)
+                                                return (<Link to={`https://www.google.com/search?q=${curr?.name}`} target='_blank'>{curr?.name+" - "+ curr?.character}</Link>)
                                             }
                                         })}
                                     </Text>
