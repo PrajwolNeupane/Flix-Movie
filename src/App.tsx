@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import HomePage from './Page/HomePage';
 import LayOut from './Component/Layout/Layout';
 import ContactPage from './Page/ContactPage';
@@ -19,6 +19,7 @@ const LoginPage = lazy(() => import('./Page/LoginPage'));
 function App() {
 
   const dispatch = useAppDispatch();
+  const {pathname} = useLocation();
 
   //Movie Page
   const popularMoviePage = useAppSelector((state) => state.movieList.popularMovie.page);
@@ -32,6 +33,9 @@ function App() {
   const trendingSeriesPage = useAppSelector((state) => state.seriesList.trendingSeries.page);
   const upComingSeriesPage = useAppSelector((state) => state.seriesList.upComingSeries.page);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   useEffect(() => {
     dispatch(getPopularMovieList());
