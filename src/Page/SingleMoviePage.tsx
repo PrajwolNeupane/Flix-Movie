@@ -1,8 +1,10 @@
-import { Box, Text, Icon, VStack, HStack, Image, Heading } from '@chakra-ui/react';
+import { Box, Text, Icon, VStack, HStack, Image, Heading, Button } from '@chakra-ui/react';
 import { FC, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Movie, MovieCast, MovieDetail } from '../Interface';
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import WatchLaterOutlinedIcon from '@mui/icons-material/WatchLaterOutlined';
 import CallMadeIcon from '@mui/icons-material/CallMade';
 import CardList from '../Component/CardList';
 import axios from 'axios';
@@ -17,7 +19,7 @@ let SingleMoviePage: FC<Props> = ({ }) => {
     const [movieData, setMovieData] = useState<MovieDetail>();
     const [movieCast, setMovieCast] = useState<MovieCast>();
     const [page, setPage] = useState<number>(1);
-    const [similarMovies,setSimilarMovies] = useState<Array<Movie>>([]);
+    const [similarMovies, setSimilarMovies] = useState<Array<Movie>>([]);
 
     useEffect(() => {
         const getMovieDetails = async () => {
@@ -59,15 +61,25 @@ let SingleMoviePage: FC<Props> = ({ }) => {
             <Box w={"90vw"} h={"550px"} bg={`linear-gradient(rgb(31, 29, 31,0.6),rgb(31, 29, 31,0.6)),url(${"https://image.tmdb.org/t/p/original" + movieData?.backdrop_path})`} style={{ backgroundSize: "cover", backgroundPosition: "center", alignItems: "center", justifyContent: "center" }} display={"flex"} >
                 <Icon as={PlayCircleFilledWhiteIcon} color={'brand.400'} fontSize={"100px"} />
             </Box>
-            <Box style={{ margin: "20px auto" }}>
-                <Text fontFamily={"Nunito"} color={"text.500"} textAlign={"center"} m={"10px 0px"} fontWeight={"regular"} fontSize={"xs"}>If the current server doesn’t work please try other server below</Text>
-                <HStack w={"40vw"} bgColor={"dark.800"} justifyContent={"space-between"} p={"0px 20px"} borderRadius={"10px"}>
-                    <Text color={"brand.500"} m={"10px 0px"} fontWeight={"medium"} fontSize={"xs"}>Vidstream</Text>
-                    <Text cursor={"pointer"} _hover={{ color: "brand.500" }} color={"text.500"} m={"10px 0px"} fontWeight={"medium"} fontSize={"xs"}>My Cloud</Text>
-                    <Text cursor={"pointer"} _hover={{ color: "brand.500" }} color={"text.500"} m={"10px 0px"} fontWeight={"medium"} fontSize={"xs"}>Up Cloud</Text>
-                    <Text cursor={"pointer"} _hover={{ color: "brand.500" }} color={"text.500"} m={"10px 0px"} fontWeight={"medium"} fontSize={"xs"}>DoodStream</Text>
+            <HStack width={'100%'} justifyContent={'flex-end'} alignItems={'flex-start'}>
+                <Box sx={{marginRight:"5vw"}}>
+                    <Text fontFamily={"Nunito"} color={"text.500"} textAlign={"center"} m={"10px 0px"} fontWeight={"regular"} fontSize={"xs"}>If the current server doesn’t work please try other server below</Text>
+                    <HStack w={"40vw"} bgColor={"dark.800"} justifyContent={"space-between"} p={"0px 20px"} borderRadius={"10px"}>
+                        <Text color={"brand.500"} m={"10px 0px"} fontWeight={"medium"} fontSize={"xs"}>Vidstream</Text>
+                        <Text cursor={"pointer"} _hover={{ color: "brand.500" }} color={"text.500"} m={"10px 0px"} fontWeight={"medium"} fontSize={"xs"}>My Cloud</Text>
+                        <Text cursor={"pointer"} _hover={{ color: "brand.500" }} color={"text.500"} m={"10px 0px"} fontWeight={"medium"} fontSize={"xs"}>Up Cloud</Text>
+                        <Text cursor={"pointer"} _hover={{ color: "brand.500" }} color={"text.500"} m={"10px 0px"} fontWeight={"medium"} fontSize={"xs"}>DoodStream</Text>
+                    </HStack>
+                </Box>
+                <HStack>
+                    <Button fontFamily={"Nunito"} color={"brand.500"} fontWeight={"medium"} fontSize={"xxs"} leftIcon={<Icon as={WatchLaterOutlinedIcon} color={'brand.400'} />} bgColor={'dark.900'} _hover={{ bgColor: "dark.800" }}>
+                        Watch Later
+                    </Button>
+                    <Button fontFamily={"Nunito"} color={"brand.500"} fontWeight={"medium"} fontSize={"xxs"} leftIcon={<Icon as={FavoriteBorderIcon} color={'brand.400'} />} bgColor={'dark.900'} _hover={{ bgColor: "dark.800" }}>
+                        Like
+                    </Button>
                 </HStack>
-            </Box>
+            </HStack>
             <HStack gap={"40px"} pb={"40px"} alignItems={"flex-start"}>
                 <Image src={"https://image.tmdb.org/t/p/original" + movieData?.poster_path} w={"25%"} height={"400px"} borderRadius={"5px"} objectFit={'cover'} />
                 <VStack w={"75%"} alignItems={"flex-start"}>
