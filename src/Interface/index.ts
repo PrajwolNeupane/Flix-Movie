@@ -121,7 +121,12 @@ export interface MovieCast {
   id: number;
   cast: CastMember[];
 }
-//s
+
+export interface TVCast{
+  id: number;
+  cast: TVCastMember[];
+}
+
 interface TVCastMember {
   id: number;
   credit_id: string;
