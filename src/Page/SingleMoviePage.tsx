@@ -5,7 +5,7 @@ import { Movie, MovieCast, MovieDetail } from '../Interface';
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import WatchLaterOutlinedIcon from '@mui/icons-material/WatchLaterOutlined';
-import CallMadeIcon from '@mui/icons-material/CallMade';
+import LiveTvIcon from '@mui/icons-material/LiveTv';
 import CardList from '../Component/CardList';
 import axios from 'axios';
 
@@ -185,7 +185,7 @@ let SingleMoviePage: FC<Props> = ({ }) => {
                     </table>
                 </VStack>
             </HStack>
-            <CardList icon={CallMadeIcon} title='Up Coming' movieData={similarMovies} page={page} appendData={(page) => setPage(page + 1)} />
+            <CardList icon={LiveTvIcon} title='Similar Movies' movieData={similarMovies} page={page} appendData={(page) => setPage(page + 1)} />
         </VStack>
     )
 }
