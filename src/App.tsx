@@ -12,6 +12,7 @@ import TVSeriesPage from './Page/TVSeriesPage';
 import { getPopularSeriesList ,appendPopularSeriesList, getTopRatedSeriesList, appendTrendingSeriesList, getTrendingSeriesList, getUpComingSeriesList,appendUpComingSeriesList} from './App/Reducer/seriesReducer.ts';
 import SingleMoviePage from './Page/SingleMoviePage.tsx';
 import SingleTVPage from './Page/SingleTVPage.tsx';
+import GenrePage from './Page/GenrePage.tsx';
 
 //Lazy Import
 const SignupPage = lazy(() => import('./Page/SignupPage'));
@@ -108,6 +109,7 @@ function App() {
           <Route path='/contact' element={<ContactPage />} />
           <Route path='/movie/:id' element={<SingleMoviePage />}/>
           <Route path='/series/:id' element={<SingleTVPage />}/>
+          <Route path='/genre/:id' element={<GenrePage />}/>
         </Route>
         <Route path='/log-in' element={<Suspense fallback="Loading..."><LoginPage /></Suspense>} />
         <Route path='/sign-up' element={<Suspense fallback="Loading..."><SignupPage /></Suspense>} />

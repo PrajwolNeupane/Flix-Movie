@@ -79,7 +79,7 @@ let NavBar: FC<Props> = ({ }) => {
                     {
                         GenreID.genres?.map((curr: { id: number, name: string }, indx: number) => {
                             return (
-                                <Link to={"/"} key={indx}>
+                                <Link to={`/genre/${curr.id}`} key={indx}>
                                     <Text fontFamily={"Nunito"} fontWeight={"medium"} fontSize={"xxs"} color={"text.200"}>{curr.name}</Text>
                                 </Link>
                             )

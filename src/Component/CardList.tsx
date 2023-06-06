@@ -11,13 +11,15 @@ interface Props {
     movieData?: Array<Movie>,
     seiresData?: Array<Series>,
     page: number,
-    appendData: (page: number) => void
+    appendData: (page: number) => void,
+    defaultLimit? : number
 }
 
 
-let CardList: FC<Props> = ({ icon, title, movieData, page, appendData,seiresData }) => {
+let CardList: FC<Props> = ({ icon, title, movieData, page, appendData,seiresData,defaultLimit }) => {
 
-    const [limit, setLimit] = useState<number>(7);
+
+    const [limit, setLimit] = useState<number>(defaultLimit || 7);
 
 
     if (movieData != undefined) {
