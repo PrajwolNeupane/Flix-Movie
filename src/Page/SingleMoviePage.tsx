@@ -1,6 +1,6 @@
 import { Box, Text, Icon, VStack, HStack, Image, Heading, Button } from '@chakra-ui/react';
 import { FC, useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams,useNavigate } from 'react-router-dom';
 import { Movie, MovieCast, MovieDetail } from '../Interface';
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -8,6 +8,8 @@ import WatchLaterOutlinedIcon from '@mui/icons-material/WatchLaterOutlined';
 import LiveTvIcon from '@mui/icons-material/LiveTv';
 import CardList from '../Component/CardList';
 import axios from 'axios';
+import addToLikeMovies from '../Feature/Like';
+import { useAppSelector } from '../App/store';
 
 interface Props {
 
@@ -16,6 +18,8 @@ interface Props {
 let SingleMoviePage: FC<Props> = ({ }) => {
 
     const { id } = useParams();
+    const {auth} = useAppSelector((state) => state.auth);
+    const navigate = useNavigate();
     const [movieData, setMovieData] = useState<MovieDetail>();
     const [movieCast, setMovieCast] = useState<MovieCast>();
     const [page, setPage] = useState<number>(1);
@@ -60,6 +64,21 @@ let SingleMoviePage: FC<Props> = ({ }) => {
         }
     }, [movieData]);
 
+    const likeMovieHanlder = () => {
+        if(auth){
+            addToLikeMovies(
+                auth.uid,movieData,
+                ()=>{
+                alert("Added")
+            },(e)=>{
+                alert(e.message)
+            });
+        }else{
+            navigate("/log-in");
+        }
+     
+    }
+
 
     return (
         <VStack alignItems={"flex-start"} m={"0px 5vw"}>
@@ -81,7 +100,9 @@ let SingleMoviePage: FC<Props> = ({ }) => {
                     <Button fontFamily={"Nunito"} height={'45px'} borderRadius={"10px"} color={"text.500"} fontWeight={"medium"} fontSize={"xs"} leftIcon={<Icon as={WatchLaterOutlinedIcon} color={'brand.400'} />} bgColor={'dark.700'} _hover={{ bgColor: "dark.800" }}>
                         Watch Later
                     </Button>
-                    <Button fontFamily={"Nunito"} borderRadius={"10px"} height={'45px'} color={"text.500"} fontWeight={"medium"} fontSize={"xs"} leftIcon={<Icon as={FavoriteBorderIcon} color={'brand.400'} />} bgColor={'dark.700'} _hover={{ bgColor: "dark.800" }}>
+                    <Button fontFamily={"Nunito"} borderRadius={"10px"} height={'45px'} color={"text.500"} fontWeight={"medium"} fontSize={"xs"} leftIcon={<Icon as={FavoriteBorderIcon} color={'brand.400'} />} bgColor={'dark.700'} _hover={{ bgColor: "dark.800" }} onClick={()=>{
+                        likeMovieHanlder();
+                    }}>
                         Like
                     </Button>
                 </HStack>

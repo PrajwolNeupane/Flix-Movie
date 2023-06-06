@@ -75,7 +75,7 @@ let ProfilePage: FC<Props> = ({ }) => {
                             />
                             <TabPanels>
                                 <TabPanel>
-                                    <p>one!</p>
+                                   
                                 </TabPanel>
                                 <TabPanel>
                                     <p>two!</p>
