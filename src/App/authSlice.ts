@@ -2,17 +2,17 @@ import { createSlice,PayloadAction } from '@reduxjs/toolkit';
 import {User} from 'firebase/auth'
 
 type InitialState = {
-    auth?:User
+    auth:User |null
 }
 
 const initialState:InitialState = {
-    auth:undefined
+    auth:null
 }
 const AuthSlice = createSlice({
     name:"Auth",
     initialState,
     reducers:{
-        setAuth:(state,action: PayloadAction<User | undefined >) => {
+        setAuth:(state,action: PayloadAction<User | null >) => {
             state.auth = action.payload;
         }
     }, 

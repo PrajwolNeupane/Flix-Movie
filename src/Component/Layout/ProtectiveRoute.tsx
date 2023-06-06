@@ -1,8 +1,8 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { useAuth } from "../../Firebase/firebaseAuth";
 import { setAuth } from "../../App/authSlice";
-import { useAppDispatch } from "../../App/store";
+import { useAppDispatch} from "../../App/store";
 
 
 interface Props {
@@ -15,25 +15,29 @@ let ProtectiveRoute: FC<Props> = ({ }) => {
     const localSaveAuth = localStorage.getItem('saveAuth');
     const sessionSaveAuth = sessionStorage.getItem('saveAuth');
     const dispatch = useAppDispatch();
-
+    const [loading,setLoading] = useState<boolean>(true);
     useEffect(() => {
+        setLoading(true);
         if (localSaveAuth == 'true') {
-            dispatch(setAuth(currentUser));
+            dispatch(setAuth(currentUser || null));
         } else {
             if (sessionSaveAuth == 'true') {
-                dispatch(setAuth(currentUser));
+                dispatch(setAuth(currentUser || null));
             }
             else {
-                dispatch(setAuth(undefined));
+                dispatch(setAuth(null));
             }
         }
-        // dispatch(setAuth(currentUser));
-        console.log(currentUser);
+        setTimeout(()=>{
+            setLoading(false);
+        },1000)
     }, [currentUser, localSaveAuth, sessionSaveAuth]);
 
     return (
         <>
-            <Outlet />
+           {
+            loading? <><h1>Loading</h1></> :  <Outlet />
+           }
         </>
     )
 }
