@@ -1,11 +1,13 @@
 import {createSlice,PayloadAction } from '@reduxjs/toolkit';
 
 type InitialState = {
-    likeMovie:Array<any>
+    likeMovie:Array<any>,
+    watchLaterMovie:Array<any>
 }
 
 const initialState:InitialState = {
-    likeMovie:[]
+    likeMovie:[],
+    watchLaterMovie:[]
 }
 
 const firestoreMovieSlice = createSlice({
@@ -14,9 +16,12 @@ const firestoreMovieSlice = createSlice({
     reducers:{
      setLikeMovie:(state,action:PayloadAction<any>) =>{
         state.likeMovie = action.payload
+     },
+     setWatchLaterMovie:(state,action:PayloadAction<any>) => {
+        state.watchLaterMovie = action.payload
      }
     },
 });
 
 export default firestoreMovieSlice.reducer;
-export const{setLikeMovie} = firestoreMovieSlice.actions;
+export const{setLikeMovie,setWatchLaterMovie} = firestoreMovieSlice.actions;
