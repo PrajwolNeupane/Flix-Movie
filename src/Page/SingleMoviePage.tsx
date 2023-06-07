@@ -1,6 +1,6 @@
 import { Box, Text, Icon, VStack, HStack, Image, Heading, Button } from '@chakra-ui/react';
 import { FC, useEffect, useState } from 'react';
-import { Link, useParams,useNavigate } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Movie, MovieCast, MovieDetail } from '../Interface';
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -8,7 +8,7 @@ import WatchLaterOutlinedIcon from '@mui/icons-material/WatchLaterOutlined';
 import LiveTvIcon from '@mui/icons-material/LiveTv';
 import CardList from '../Component/CardList';
 import axios from 'axios';
-import addToLikeMovies from '../Feature/Like';
+import addToLikeMovies, { addToWatchLaterMovies } from '../Feature/Firestore';
 import { useAppSelector } from '../App/store';
 
 interface Props {
@@ -18,7 +18,7 @@ interface Props {
 let SingleMoviePage: FC<Props> = ({ }) => {
 
     const { id } = useParams();
-    const {auth} = useAppSelector((state) => state.auth);
+    const { auth } = useAppSelector((state) => state.auth);
     const navigate = useNavigate();
     const [movieData, setMovieData] = useState<MovieDetail>();
     const [movieCast, setMovieCast] = useState<MovieCast>();
@@ -65,18 +65,29 @@ let SingleMoviePage: FC<Props> = ({ }) => {
     }, [movieData]);
 
     const likeMovieHanlder = () => {
-        if(auth){
+        if (auth) {
             addToLikeMovies(
-                auth.uid,movieData,
-                ()=>{
-                alert("Added")
-            },(e)=>{
-                alert(e.message)
-            });
-        }else{
+                auth.uid, movieData,
+                () => {
+                    alert("Added")
+                }, (e) => {
+                    alert(e.message)
+                });
+        } else {
             navigate("/log-in");
         }
-     
+
+    }
+    const watchlaterMovieHanlder = () => {
+        if (auth) {
+            addToWatchLaterMovies(auth.uid, movieData, () => {
+                alert("Movie Added")
+            }, (e) => {
+                console.log(id);
+            });
+        } else {
+            navigate("/log-in");
+        }
     }
 
 
@@ -97,10 +108,12 @@ let SingleMoviePage: FC<Props> = ({ }) => {
                     </HStack>
                 </Box>
                 <HStack gap={"10px"} alignItems={'center'}>
-                    <Button fontFamily={"Nunito"} height={'45px'} borderRadius={"10px"} color={"text.500"} fontWeight={"medium"} fontSize={"xs"} leftIcon={<Icon as={WatchLaterOutlinedIcon} color={'brand.400'} />} bgColor={'dark.700'} _hover={{ bgColor: "dark.800" }}>
+                    <Button fontFamily={"Nunito"} height={'45px'} borderRadius={"10px"} color={"text.500"} fontWeight={"medium"} fontSize={"xs"} leftIcon={<Icon as={WatchLaterOutlinedIcon} color={'brand.400'} />} bgColor={'dark.700'} _hover={{ bgColor: "dark.800" }} onClick={() => {
+                        watchlaterMovieHanlder();
+                    }}>
                         Watch Later
                     </Button>
-                    <Button fontFamily={"Nunito"} borderRadius={"10px"} height={'45px'} color={"text.500"} fontWeight={"medium"} fontSize={"xs"} leftIcon={<Icon as={FavoriteBorderIcon} color={'brand.400'} />} bgColor={'dark.700'} _hover={{ bgColor: "dark.800" }} onClick={()=>{
+                    <Button fontFamily={"Nunito"} borderRadius={"10px"} height={'45px'} color={"text.500"} fontWeight={"medium"} fontSize={"xs"} leftIcon={<Icon as={FavoriteBorderIcon} color={'brand.400'} />} bgColor={'dark.700'} _hover={{ bgColor: "dark.800" }} onClick={() => {
                         likeMovieHanlder();
                     }}>
                         Like
