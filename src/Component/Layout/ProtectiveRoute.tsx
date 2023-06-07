@@ -5,7 +5,7 @@ import { setAuth } from "../../App/authSlice";
 import { useAppDispatch } from "../../App/store";
 import { db } from "../../Firebase/config";
 import { collection, getDocs } from "firebase/firestore";
-import { setLikeMovie } from '../../App/firestoreMovieSlice.js';
+import { setLikeMovie, setWatchLaterMovie } from '../../App/firestoreMovieSlice.js';
 
 
 interface Props {
@@ -30,8 +30,18 @@ let ProtectiveRoute: FC<Props> = ({ }) => {
             dispatch(setLikeMovie(tempData));
 
         }
+        const getWacthLaterMovie = async () => {
+            const Collection = collection(db, `${currentUser?.uid}/watchlater/movie`);
+            const data = await getDocs(Collection);
+            var tempData = data.docs.map((doc) => ({
+                ...doc.data().movie
+            }))
+            dispatch(setWatchLaterMovie(tempData))
+
+        }
         if (currentUser) {
             getLikeMovie();
+            getWacthLaterMovie();
 
         }
     }, [currentUser]);
