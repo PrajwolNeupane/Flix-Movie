@@ -9,7 +9,8 @@ import LiveTvIcon from '@mui/icons-material/LiveTv';
 import CardList from '../Component/CardList';
 import axios from 'axios';
 import addToLikeMovies, { addToWatchLaterMovies } from '../Feature/Firestore';
-import { useAppSelector } from '../App/store';
+import { appendLikeMovie,appendWatchLaterMovie } from "../App/firestoreMovieSlice";
+import { useAppSelector,useAppDispatch } from '../App/store';
 
 interface Props {
 
@@ -18,6 +19,7 @@ interface Props {
 let SingleMoviePage: FC<Props> = ({ }) => {
 
     const { id } = useParams();
+    const disptach = useAppDispatch();
     const { auth } = useAppSelector((state) => state.auth);
     const navigate = useNavigate();
     const [movieData, setMovieData] = useState<MovieDetail>();
@@ -70,6 +72,7 @@ let SingleMoviePage: FC<Props> = ({ }) => {
                 auth.uid, movieData,
                 () => {
                     alert("Added")
+                    disptach(appendLikeMovie(movieData));
                 }, (e) => {
                     alert(e.message)
                 });
@@ -82,8 +85,9 @@ let SingleMoviePage: FC<Props> = ({ }) => {
         if (auth) {
             addToWatchLaterMovies(auth.uid, movieData, () => {
                 alert("Movie Added")
+                disptach(appendWatchLaterMovie(movieData));
             }, (e) => {
-                console.log(id);
+                console.log(e);
             });
         } else {
             navigate("/log-in");
