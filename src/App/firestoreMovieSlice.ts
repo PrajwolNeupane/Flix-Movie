@@ -20,14 +20,21 @@ const firestoreMovieSlice = createSlice({
      appendLikeMovie:(state,action:PayloadAction<any>)=>{
         state.likeMovie =  state.likeMovie.concat([action.payload]);
      },
+     removeLikeMovie:(state,action:PayloadAction<any>) => {
+      state.likeMovie.splice(action.payload,1);
+     }
+     ,
      setWatchLaterMovie:(state,action:PayloadAction<any>) => {
         state.watchLaterMovie = action.payload
      }, 
      appendWatchLaterMovie:(state,action:PayloadAction<any>)=>{
         state.watchLaterMovie =  state.watchLaterMovie.concat([action.payload]);
      },
+     removeWatchLaterMovie:(state,action:PayloadAction<any>) => {
+      state.watchLaterMovie.splice(action.payload,1);
+     }
     },
 });
 
 export default firestoreMovieSlice.reducer;
-export const{setLikeMovie,appendLikeMovie,setWatchLaterMovie,appendWatchLaterMovie} = firestoreMovieSlice.actions;
+export const{setLikeMovie,appendLikeMovie,removeLikeMovie,setWatchLaterMovie,appendWatchLaterMovie,removeWatchLaterMovie} = firestoreMovieSlice.actions;

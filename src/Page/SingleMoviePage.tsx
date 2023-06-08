@@ -9,8 +9,8 @@ import WatchLaterOutlinedIcon from '@mui/icons-material/WatchLaterOutlined';
 import LiveTvIcon from '@mui/icons-material/LiveTv';
 import CardList from '../Component/CardList';
 import axios from 'axios';
-import addToLikeMovies, { addToWatchLaterMovies } from '../Feature/Firestore';
-import { appendLikeMovie, appendWatchLaterMovie } from "../App/firestoreMovieSlice";
+import addToLikeMovies, { addToWatchLaterMovies, removeFromLikeMovies } from '../Feature/Firestore';
+import { appendLikeMovie, appendWatchLaterMovie, removeLikeMovie, removeWatchLaterMovie } from "../App/firestoreMovieSlice";
 import { useAppSelector, useAppDispatch } from '../App/store';
 import { compareFireStoreData } from '../Const';
 
@@ -78,29 +78,43 @@ let SingleMoviePage: FC<Props> = ({ }) => {
         }
     }, [movieData, likeMovie, watchLaterMovie]);
 
-    const likeMovieHanlder = (toRemove:boolean) => {
+    const likeMovieHanlder = (toRemove: boolean) => {
         if (auth) {
-            addToLikeMovies(
-                auth.uid, movieData,
-                () => {
-                    alert("Added")
-                    disptach(appendLikeMovie(movieData));
-                }, (e) => {
-                    alert(e.message)
+            if (!toRemove) {
+                addToLikeMovies(
+                    auth.uid, movieData,
+                    () => {
+                        alert("Added")
+                        disptach(appendLikeMovie(movieData));
+                    }, (e) => {
+                        alert(e.message)
+                    }); 
+            } else {
+                removeFromLikeMovies(likeMovie,movieData,(index) => {
+                    disptach(removeLikeMovie(index));
                 });
+                alert("Removed")
+            }
         } else {
             navigate("/log-in");
         }
 
     }
-    const watchlaterMovieHanlder = (toRemove:boolean) => {
+    const watchlaterMovieHanlder = (toRemove: boolean) => {
         if (auth) {
-            addToWatchLaterMovies(auth.uid, movieData, () => {
-                alert("Movie Added")
-                disptach(appendWatchLaterMovie(movieData));
-            }, (e) => {
-                console.log(e);
-            });
+            if (!toRemove) {
+                addToWatchLaterMovies(auth.uid, movieData, () => {
+                    alert("Movie Added")
+                    disptach(appendWatchLaterMovie(movieData));
+                }, (e) => {
+                    console.log(e);
+                });
+            } else {
+                removeFromLikeMovies(watchLaterMovie,movieData,(index) => {
+                    disptach(removeWatchLaterMovie(index));
+                });
+                alert("Removed")
+            }
         } else {
             navigate("/log-in");
         }

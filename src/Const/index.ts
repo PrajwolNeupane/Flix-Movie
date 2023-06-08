@@ -115,5 +115,16 @@ export const compareFireStoreData = (array:Array<any>,data:any) => {
         }
     })
     return save;
+}
+
+export const getFireStoreIndex = (array:Array<any>,data:any) => {
+    var index = null;
+    array.filter((curr,indx) => {
+        if(curr?.id === data?.id){
+            index = indx;
+        }
+    })
+    return index;
+    
 
 }
