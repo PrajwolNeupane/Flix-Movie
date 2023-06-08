@@ -17,9 +17,15 @@ const firestoreMovieSlice = createSlice({
      setLikeMovie:(state,action:PayloadAction<any>) =>{
         state.likeMovie = action.payload
      },
+     appendLikeMovie:(state,action:PayloadAction<any>)=>{
+        state.likeMovie =  state.likeMovie.concat([action.payload]);
+     },
      setWatchLaterMovie:(state,action:PayloadAction<any>) => {
         state.watchLaterMovie = action.payload
-     }
+     }, 
+     appendWatchLaterMovie:(state,action:PayloadAction<any>)=>{
+        state.watchLaterMovie =  state.watchLaterMovie.concat([action.payload]);
+     },
     },
 });
 
