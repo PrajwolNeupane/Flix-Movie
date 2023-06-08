@@ -4,13 +4,15 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Movie, MovieCast, MovieDetail } from '../Interface';
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import WatchLaterOutlinedIcon from '@mui/icons-material/WatchLaterOutlined';
 import LiveTvIcon from '@mui/icons-material/LiveTv';
 import CardList from '../Component/CardList';
 import axios from 'axios';
 import addToLikeMovies, { addToWatchLaterMovies } from '../Feature/Firestore';
-import { appendLikeMovie,appendWatchLaterMovie } from "../App/firestoreMovieSlice";
-import { useAppSelector,useAppDispatch } from '../App/store';
+import { appendLikeMovie, appendWatchLaterMovie } from "../App/firestoreMovieSlice";
+import { useAppSelector, useAppDispatch } from '../App/store';
+import { compareFireStoreData } from '../Const';
 
 interface Props {
 
@@ -21,11 +23,14 @@ let SingleMoviePage: FC<Props> = ({ }) => {
     const { id } = useParams();
     const disptach = useAppDispatch();
     const { auth } = useAppSelector((state) => state.auth);
+    const { likeMovie, watchLaterMovie } = useAppSelector((state) => state.firestoreMovie);
     const navigate = useNavigate();
     const [movieData, setMovieData] = useState<MovieDetail>();
     const [movieCast, setMovieCast] = useState<MovieCast>();
     const [page, setPage] = useState<number>(1);
     const [similarMovies, setSimilarMovies] = useState<Array<Movie>>([]);
+    const [isSavedLike, setSavedLike] = useState(false);
+    const [isSavedWatchLater, setSavedWatchLater] = useState(false);
 
     useEffect(() => {
         const getMovieDetails = async () => {
@@ -66,7 +71,14 @@ let SingleMoviePage: FC<Props> = ({ }) => {
         }
     }, [movieData]);
 
-    const likeMovieHanlder = () => {
+    useEffect(() => {
+        if (movieData && likeMovie && watchLaterMovie) {
+            setSavedLike(compareFireStoreData(likeMovie, movieData));
+            setSavedWatchLater(compareFireStoreData(watchLaterMovie, movieData));
+        }
+    }, [movieData, likeMovie, watchLaterMovie]);
+
+    const likeMovieHanlder = (toRemove:boolean) => {
         if (auth) {
             addToLikeMovies(
                 auth.uid, movieData,
@@ -81,7 +93,7 @@ let SingleMoviePage: FC<Props> = ({ }) => {
         }
 
     }
-    const watchlaterMovieHanlder = () => {
+    const watchlaterMovieHanlder = (toRemove:boolean) => {
         if (auth) {
             addToWatchLaterMovies(auth.uid, movieData, () => {
                 alert("Movie Added")
@@ -112,16 +124,30 @@ let SingleMoviePage: FC<Props> = ({ }) => {
                     </HStack>
                 </Box>
                 <HStack gap={"10px"} alignItems={'center'}>
-                    <Button fontFamily={"Nunito"} height={'45px'} borderRadius={"10px"} color={"text.500"} fontWeight={"medium"} fontSize={"xs"} leftIcon={<Icon as={WatchLaterOutlinedIcon} color={'brand.400'} />} bgColor={'dark.700'} _hover={{ bgColor: "dark.800" }} onClick={() => {
-                        watchlaterMovieHanlder();
-                    }}>
-                        Watch Later
-                    </Button>
-                    <Button fontFamily={"Nunito"} borderRadius={"10px"} height={'45px'} color={"text.500"} fontWeight={"medium"} fontSize={"xs"} leftIcon={<Icon as={FavoriteBorderIcon} color={'brand.400'} />} bgColor={'dark.700'} _hover={{ bgColor: "dark.800" }} onClick={() => {
-                        likeMovieHanlder();
-                    }}>
-                        Like
-                    </Button>
+                    {
+                        isSavedWatchLater ? <Button fontFamily={"Nunito"} height={'45px'} borderRadius={"10px"} color={"text.500"} fontWeight={"medium"} fontSize={"xs"} leftIcon={<Icon as={WatchLaterOutlinedIcon} color={'brand.400'} />} bgColor={'dark.700'} _hover={{ bgColor: "dark.800" }} onClick={() => {
+                            watchlaterMovieHanlder(isSavedWatchLater);
+                        }}>
+                            Remove from Watch Later
+                        </Button> :
+                            <Button fontFamily={"Nunito"} height={'45px'} borderRadius={"10px"} color={"text.500"} fontWeight={"medium"} fontSize={"xs"} leftIcon={<Icon as={WatchLaterOutlinedIcon} color={'brand.400'} />} bgColor={'dark.700'} _hover={{ bgColor: "dark.800" }} onClick={() => {
+                                watchlaterMovieHanlder(isSavedWatchLater);
+                            }}>
+                                Watch Later
+                            </Button>
+                    }
+
+                    {
+                        isSavedLike ? <Button fontFamily={"Nunito"} borderRadius={"10px"} height={'45px'} color={"text.500"} fontWeight={"medium"} fontSize={"xs"} leftIcon={<Icon as={FavoriteIcon} color={'brand.400'} />} bgColor={'dark.700'} _hover={{ bgColor: "dark.800" }} onClick={() => {
+                            likeMovieHanlder(isSavedLike);
+                        }}>
+                            Remove from like
+                        </Button> : <Button fontFamily={"Nunito"} borderRadius={"10px"} height={'45px'} color={"text.500"} fontWeight={"medium"} fontSize={"xs"} leftIcon={<Icon as={FavoriteBorderIcon} color={'brand.400'} />} bgColor={'dark.700'} _hover={{ bgColor: "dark.800" }} onClick={() => {
+                            likeMovieHanlder(isSavedLike);
+                        }}>
+                            Like
+                        </Button>
+                    }
                 </HStack>
             </HStack>
             <HStack gap={"40px"} pb={"40px"} alignItems={"flex-start"}>

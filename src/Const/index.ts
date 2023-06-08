@@ -102,9 +102,18 @@ export const GenreID:GenreIDInterface = {
     ]
 }
 
-
 export const setGenre = (array:Array<number>) => {
     const filteredGenres = GenreID.genres.filter((genre) => array.includes(genre.id));
     return filteredGenres;
+
+}
+export const compareFireStoreData = (array:Array<any>,data:any) => {
+    var save = false;
+    array.filter((curr) => {
+        if(curr?.id === data?.id){
+            save = true;
+        }
+    })
+    return save;
 
 }
