@@ -61,7 +61,7 @@ const MovieListSlice = createSlice({
         }
     },
     extraReducers:(builder) => {
-        //Builder for Popular Movie List
+        //Builder for Popular Movie List ok
         builder.addCase(getPopularMovieList.fulfilled,(state,action) => {
             state.popularMovie.popularMoiveList = action.payload
         })
