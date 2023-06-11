@@ -41,7 +41,7 @@ const initialState:InitialState = {
     }
 }
 
-//Hi Baje
+//Hi Prajwol Neupane
 
 const MovieListSlice = createSlice({
     name:"MovieList",
