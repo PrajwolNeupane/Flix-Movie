@@ -10,8 +10,7 @@ import LiveTvIcon from '@mui/icons-material/LiveTv';
 import CardList from '../Component/CardList';
 import axios from 'axios';
 import addToLikeMovies, { addToWatchLaterMovies, removeFromLikeMovies, removeFromWatchLaterMovies } from '../Feature/Firestore';
-import { removeLikeMovie, removeWatchLaterMovie } from "../App/firestoreMovieSlice";
-import { useAppSelector, useAppDispatch } from '../App/store';
+import { useAppSelector } from '../App/store';
 import { compareFireStoreData } from '../Const';
 
 interface Props {
@@ -21,7 +20,6 @@ interface Props {
 let SingleMoviePage: FC<Props> = ({ }) => {
 
     const { id } = useParams();
-    const disptach = useAppDispatch();
     const { auth } = useAppSelector((state) => state.auth);
     const { likeMovie, watchLaterMovie } = useAppSelector((state) => state.firestoreMovie);
     const navigate = useNavigate();
@@ -89,7 +87,7 @@ let SingleMoviePage: FC<Props> = ({ }) => {
                         alert(e.message)
                     });
             } else {
-                removeFromLikeMovies(auth?.uid, likeMovie, movieData, (index) => {
+                removeFromLikeMovies(auth?.uid, likeMovie, movieData, () => {
                     alert("Removed")
                 }, (e) => {
                     alert(e);
@@ -109,7 +107,7 @@ let SingleMoviePage: FC<Props> = ({ }) => {
                     console.log(e);
                 });
             } else {
-                removeFromWatchLaterMovies(auth?.uid, watchLaterMovie, movieData, (index) => {
+                removeFromWatchLaterMovies(auth?.uid, watchLaterMovie, movieData, () => {
                     alert("Removed")
                 }, (e) => {
                     alert(e);
