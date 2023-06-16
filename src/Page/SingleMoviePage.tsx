@@ -10,7 +10,7 @@ import LiveTvIcon from '@mui/icons-material/LiveTv';
 import CardList from '../Component/CardList';
 import axios from 'axios';
 import addToLikeMovies, { addToWatchLaterMovies, removeFromLikeMovies } from '../Feature/Firestore';
-import { appendLikeMovie, appendWatchLaterMovie, removeLikeMovie, removeWatchLaterMovie } from "../App/firestoreMovieSlice";
+import {removeLikeMovie, removeWatchLaterMovie } from "../App/firestoreMovieSlice";
 import { useAppSelector, useAppDispatch } from '../App/store';
 import { compareFireStoreData } from '../Const';
 
@@ -85,7 +85,6 @@ let SingleMoviePage: FC<Props> = ({ }) => {
                     auth.uid, movieData,
                     () => {
                         alert("Added")
-                        disptach(appendLikeMovie(movieData));
                     }, (e) => {
                         alert(e.message)
                     });
@@ -94,7 +93,7 @@ let SingleMoviePage: FC<Props> = ({ }) => {
                     disptach(removeLikeMovie(index));
                     alert("Removed")
                 }, (e) => {
-                    alert(e.message);
+                    alert(e);
                 });
             }
         } else {
@@ -107,7 +106,6 @@ let SingleMoviePage: FC<Props> = ({ }) => {
             if (!toRemove) {
                 addToWatchLaterMovies(auth.uid, movieData, () => {
                     alert("Movie Added")
-                    disptach(appendWatchLaterMovie(movieData));
                 }, (e) => {
                     console.log(e);
                 });

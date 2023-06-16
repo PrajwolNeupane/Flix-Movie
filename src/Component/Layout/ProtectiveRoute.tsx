@@ -4,7 +4,7 @@ import { useAuth } from "../../Firebase/firebaseAuth";
 import { setAuth } from "../../App/authSlice";
 import { useAppDispatch } from "../../App/store";
 import { db } from "../../Firebase/config";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 import { setLikeMovie, setWatchLaterMovie } from '../../App/firestoreMovieSlice.js';
 
 
@@ -23,24 +23,25 @@ let ProtectiveRoute: FC<Props> = ({ }) => {
     useEffect(() => {
         const getLikeMovie = async () => {
             const Collection = collection(db, `${currentUser?.uid}/like/movie`);
-            const data = await getDocs(Collection);
-            var tempData = data.docs.map((doc) => ({
-                documentId: doc.id,
-                ...doc.data(),
+            onSnapshot(Collection, (data) => {
+                var tempData = data.docs.map((doc) => ({
+                    documentId: doc.id,
+                    ...doc.data(),
 
-            }))
-            dispatch(setLikeMovie(tempData));
+                }))
+                dispatch(setLikeMovie(tempData));
+            })
 
         }
         const getWacthLaterMovie = async () => {
             const Collection = collection(db, `${currentUser?.uid}/watchlater/movie`);
-            const data = await getDocs(Collection);
-            var tempData = data.docs.map((doc) => ({
-                documentId: doc.id,
-                ...doc.data()
-            }))
-            dispatch(setWatchLaterMovie(tempData))
-
+            onSnapshot(Collection, (data) => {
+                var tempData = data.docs.map((doc) => ({
+                    documentId: doc.id,
+                    ...doc.data(),
+                }))
+                dispatch(setWatchLaterMovie(tempData));
+            })
         }
         if (currentUser) {
             getLikeMovie();
