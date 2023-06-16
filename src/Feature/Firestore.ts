@@ -29,7 +29,6 @@ export const removeFromLikeMovies = (
 ) => {
   var index = getFireStoreIndex(allLikeMovie, movieData);
   if (index) {
-    console.log(allLikeMovie[index]);
     const likeCollection = collection(db, `${uid}/like/movie`);
     deleteDoc(doc(likeCollection, allLikeMovie[index].documentId))
       .then(() => {
@@ -39,8 +38,16 @@ export const removeFromLikeMovies = (
       .catch((e: Error) => {
         error(e.message);
       });
-  }else{
-    error("Cannot Remove from Like Movies");
+  } else {
+    const likeCollection = collection(db, `${uid}/like/movie`);
+    deleteDoc(doc(likeCollection, allLikeMovie[0].documentId))
+      .then(() => {
+        success(index);
+        alert("Removed in");
+      })
+      .catch((e: Error) => {
+        error(e.message);
+      });
   }
 };
 export default addToLikeMovies;
