@@ -25,7 +25,9 @@ let ProtectiveRoute: FC<Props> = ({ }) => {
             const Collection = collection(db, `${currentUser?.uid}/like/movie`);
             const data = await getDocs(Collection);
             var tempData = data.docs.map((doc) => ({
-                ...doc.data().movie
+                documentId: doc.id,
+                ...doc.data(),
+
             }))
             dispatch(setLikeMovie(tempData));
 
@@ -34,7 +36,8 @@ let ProtectiveRoute: FC<Props> = ({ }) => {
             const Collection = collection(db, `${currentUser?.uid}/watchlater/movie`);
             const data = await getDocs(Collection);
             var tempData = data.docs.map((doc) => ({
-                ...doc.data().movie
+                documentId: doc.id,
+                ...doc.data()
             }))
             dispatch(setWatchLaterMovie(tempData))
 

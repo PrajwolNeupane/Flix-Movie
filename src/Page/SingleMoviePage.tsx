@@ -88,12 +88,14 @@ let SingleMoviePage: FC<Props> = ({ }) => {
                         disptach(appendLikeMovie(movieData));
                     }, (e) => {
                         alert(e.message)
-                    }); 
+                    });
             } else {
-                removeFromLikeMovies(likeMovie,movieData,(index) => {
+                removeFromLikeMovies(auth?.uid, likeMovie, movieData, (index) => {
                     disptach(removeLikeMovie(index));
+                    alert("Removed")
+                }, (e) => {
+                    alert(e.message);
                 });
-                alert("Removed")
             }
         } else {
             navigate("/log-in");
@@ -110,9 +112,9 @@ let SingleMoviePage: FC<Props> = ({ }) => {
                     console.log(e);
                 });
             } else {
-                removeFromLikeMovies(watchLaterMovie,movieData,(index) => {
-                    disptach(removeWatchLaterMovie(index));
-                });
+                // removeFromLikeMovies(watchLaterMovie,movieData,(index) => {
+                //     disptach(removeWatchLaterMovie(index));
+                // });
                 alert("Removed")
             }
         } else {
