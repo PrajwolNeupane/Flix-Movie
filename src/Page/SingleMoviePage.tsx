@@ -9,8 +9,8 @@ import WatchLaterOutlinedIcon from '@mui/icons-material/WatchLaterOutlined';
 import LiveTvIcon from '@mui/icons-material/LiveTv';
 import CardList from '../Component/CardList';
 import axios from 'axios';
-import addToLikeMovies, { addToWatchLaterMovies, removeFromLikeMovies } from '../Feature/Firestore';
-import {removeLikeMovie, removeWatchLaterMovie } from "../App/firestoreMovieSlice";
+import addToLikeMovies, { addToWatchLaterMovies, removeFromLikeMovies, removeFromWatchLaterMovies } from '../Feature/Firestore';
+import { removeLikeMovie, removeWatchLaterMovie } from "../App/firestoreMovieSlice";
 import { useAppSelector, useAppDispatch } from '../App/store';
 import { compareFireStoreData } from '../Const';
 
@@ -90,7 +90,6 @@ let SingleMoviePage: FC<Props> = ({ }) => {
                     });
             } else {
                 removeFromLikeMovies(auth?.uid, likeMovie, movieData, (index) => {
-                    disptach(removeLikeMovie(index));
                     alert("Removed")
                 }, (e) => {
                     alert(e);
@@ -110,10 +109,11 @@ let SingleMoviePage: FC<Props> = ({ }) => {
                     console.log(e);
                 });
             } else {
-                // removeFromLikeMovies(watchLaterMovie,movieData,(index) => {
-                //     disptach(removeWatchLaterMovie(index));
-                // });
-                alert("Removed")
+                removeFromWatchLaterMovies(auth?.uid, watchLaterMovie, movieData, (index) => {
+                    alert("Removed")
+                }, (e) => {
+                    alert(e);
+                });
             }
         } else {
             navigate("/log-in");

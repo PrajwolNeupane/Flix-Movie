@@ -52,8 +52,6 @@ export const removeFromLikeMovies = (
 };
 export default addToLikeMovies;
 
-// const removeLikeMovies =
-
 export const addToWatchLaterMovies = (
   uid: string,
   movie: MovieDetail | undefined,
@@ -62,7 +60,7 @@ export const addToWatchLaterMovies = (
 ) => {
   const likeCollection = collection(db, `${uid}/watchlater/movie`);
   addDoc(likeCollection, {
-    movie: movie,
+    ...movie,
   })
     .then(() => {
       success();
@@ -70,4 +68,35 @@ export const addToWatchLaterMovies = (
     .catch((e: Error) => {
       error(e);
     });
+};
+
+export const removeFromWatchLaterMovies = (
+  uid: string,
+  allWacthLaterMovie: any[],
+  movieData: any,
+  success: (ind: number | null) => void,
+  error: (e: string) => void
+) => {
+  var index = getFireStoreIndex(allWacthLaterMovie, movieData);
+  if (index) {
+    const likeCollection = collection(db, `${uid}/watchlater/movie`);
+    deleteDoc(doc(likeCollection, allWacthLaterMovie[index].documentId))
+      .then(() => {
+        success(index);
+        alert("Removed in");
+      })
+      .catch((e: Error) => {
+        error(e.message);
+      });
+  } else {
+    const likeCollection = collection(db, `${uid}/watchlater/movie`);
+    deleteDoc(doc(likeCollection, allWacthLaterMovie[0].documentId))
+      .then(() => {
+        success(index);
+        alert("Removed in");
+      })
+      .catch((e: Error) => {
+        error(e.message);
+      });
+  }
 };
