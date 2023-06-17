@@ -46,7 +46,7 @@ let NavBar: FC<Props> = ({ }) => {
                     <Link to="/contact"><Text fontFamily={"Nunito"} fontSize={"xs"} color={"text.100"}>Contact Us</Text></Link>
                     {
                         auth != undefined ? <>
-                            <HStack align={"center"}>
+                            <HStack align={"center"}  as={Link} to="/profile">
                                 <Avatar src={auth?.photoURL || undefined} w={"40px"} height={"40px"}/>
                                 <VStack align={"flex-start"} gap={"0px"}>
                                     <Text lineHeight={"50%"} fontFamily={"Nunito"} fontSize={"xxs"} color={"text.100"}>Hi,</Text>

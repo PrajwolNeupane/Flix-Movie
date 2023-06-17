@@ -10,7 +10,7 @@ import CardList from '../Component/CardList';
 import axios from 'axios';
 import { compareFireStoreData } from '../Const';
 import { useAppSelector } from '../App/store';
-import { addToLikeSeries, removeFromLikeSeries } from '../Feature/Firestore';
+import { addToLikeSeries, removeFromLikeSeries, addToWatchLaterSeries, removeFromWatchLaterSeries, removeFromWatchLaterMovies } from '../Feature/Firestore';
 import { errorToast, successToast } from '../Component/CusomComponents';
 
 interface Props {
@@ -105,6 +105,26 @@ let SingleTVPage: FC<Props> = ({ }) => {
 
     }
 
+    const watchlaterSeriesHanlder = (toRemove: boolean) => {
+        if (auth) {
+            if (!toRemove) {
+                addToWatchLaterSeries(auth.uid, seiresData, () => {
+                    successToast(toast, "Watch Later Series", "Watch Later Series successfully");
+                }, (e) => {
+                    console.log(e);
+                });
+            } else {
+                removeFromWatchLaterMovies(auth?.uid, watchLaterSeries, seiresData, () => {
+                    errorToast(toast, "Watch Later Series", "Series removed from watch later successfully");
+                }, (e) => {
+                    errorToast(toast, "Fail to remove series", `${e}`);
+                });
+            }
+        } else {
+            navigate("/log-in");
+        }
+    }
+
 
     return (
         <VStack alignItems={"flex-start"} m={"0px 5vw"}>
@@ -124,11 +144,12 @@ let SingleTVPage: FC<Props> = ({ }) => {
                 </Box>
                 <HStack gap={"10px"} alignItems={'center'}>
                     {
-                        !isSavedWatchLater ? <Button fontFamily={"Nunito"} height={'45px'} borderRadius={"10px"} color={"text.500"} fontWeight={"medium"} fontSize={"xs"} leftIcon={<Icon as={WatchLaterOutlinedIcon} color={'brand.400'} />} bgColor={'dark.700'} _hover={{ bgColor: "dark.800" }}>
-                            Watch Later
-                        </Button> : <Button fontFamily={"Nunito"} height={'45px'} borderRadius={"10px"} color={"text.500"} fontWeight={"medium"} fontSize={"xs"} leftIcon={<Icon as={WatchLaterOutlinedIcon} color={'brand.400'} />} bgColor={'dark.700'} _hover={{ bgColor: "dark.800" }} >
+                        isSavedWatchLater ? <Button fontFamily={"Nunito"} height={'45px'} borderRadius={"10px"} color={"text.500"} fontWeight={"medium"} fontSize={"xs"} leftIcon={<Icon as={WatchLaterOutlinedIcon} color={'brand.400'} />} bgColor={'dark.700'} _hover={{ bgColor: "dark.800" }} onClick={()=>{watchlaterSeriesHanlder(isSavedWatchLater)}}>
                             Remove from Watch Later
-                        </Button>
+                        </Button> :
+                            <Button fontFamily={"Nunito"} height={'45px'} borderRadius={"10px"} color={"text.500"} fontWeight={"medium"} fontSize={"xs"} leftIcon={<Icon as={WatchLaterOutlinedIcon} color={'brand.400'} />} bgColor={'dark.700'} _hover={{ bgColor: "dark.800" }} onClick={()=>{watchlaterSeriesHanlder(isSavedWatchLater)}}>
+                                Watch Later
+                            </Button>
                     }
                     {
                         isSavedLike ?

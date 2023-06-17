@@ -5,7 +5,7 @@ import { Avatar, Button, HStack, Text, VStack, useToast, Tabs, TabList, TabPanel
 import Logout from '../Feature/Logout.ts';
 import { errorToast, successToast } from '../Component/CusomComponents.tsx';
 import { ImageLoader } from '../Component/CusomComponents.tsx';
-import { setGenre } from '../Const/index.ts';
+
 
 
 interface Props {
@@ -33,7 +33,7 @@ let ProfilePage: FC<Props> = ({ }) => {
         <>
             {
                 auth != null ? <>
-                    <HStack padding={'50px 5%'} gap={'50px'} alignItems={'flex-start'}>
+                    <HStack padding={'50px 5%'} gap={'50px'} alignItems={'flex-start'} minHeight={"90vh"}>
                         <VStack gap={'0px'}>
                             <Avatar src={auth.photoURL || ''} width={'200px'} height={'200px'} bgColor={'text.500'} />
                             <Text lineHeight={'90%'} fontFamily={"Nunito"} color={"brand.500"} m={"10px 0px"} fontWeight={"medium"} fontSize={"rg"}>{auth.displayName}</Text>

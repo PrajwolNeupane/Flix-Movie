@@ -143,3 +143,50 @@ export const removeFromLikeSeries = (
       });
   }
 };
+
+export const addToWatchLaterSeries = (
+  uid: string,
+  series: TVShow | undefined,
+  success: () => void,
+  error: (e: Error) => void
+) => {
+  const likeCollection = collection(db, `${uid}/watchlater/series`);
+  addDoc(likeCollection, {
+    ...series,
+  })
+    .then(() => {
+      success();
+    })
+    .catch((e: Error) => {
+      error(e);
+    });
+};
+
+export const removeFromWatchLaterSeries = (
+  uid: string,
+  allLikeSeries: any[],
+  series: any,
+  success: (ind: number | null) => void,
+  error: (e: string) => void
+) => {
+  var index = getFireStoreIndex(allLikeSeries, series);
+  if (index) {
+    const likeCollection = collection(db, `${uid}/watchlater/series`);
+    deleteDoc(doc(likeCollection, allLikeSeries[index].documentId))
+      .then(() => {
+        success(index);
+      })
+      .catch((e: Error) => {
+        error(e.message);
+      });
+  } else {
+    const likeCollection = collection(db, `${uid}/watchlater/movie`);
+    deleteDoc(doc(likeCollection, allLikeSeries[0].documentId))
+      .then(() => {
+        success(index);
+      })
+      .catch((e: Error) => {
+        error(e.message);
+      });
+  }
+};
