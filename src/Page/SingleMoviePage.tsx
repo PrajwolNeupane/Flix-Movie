@@ -1,4 +1,4 @@
-import { Box, Text, Icon, VStack, HStack, Image, Heading, Button } from '@chakra-ui/react';
+import { Box, Text, Icon, VStack, HStack, Image, Heading, Button, useToast } from '@chakra-ui/react';
 import { FC, useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Movie, MovieCast, MovieDetail } from '../Interface';
@@ -12,6 +12,7 @@ import axios from 'axios';
 import addToLikeMovies, { addToWatchLaterMovies, removeFromLikeMovies, removeFromWatchLaterMovies } from '../Feature/Firestore';
 import { useAppSelector } from '../App/store';
 import { compareFireStoreData } from '../Const';
+import { successToast, errorToast } from '../Component/CusomComponents';
 
 interface Props {
 
@@ -21,6 +22,7 @@ let SingleMoviePage: FC<Props> = ({ }) => {
 
     const { id } = useParams();
     const { auth } = useAppSelector((state) => state.auth);
+    const toast = useToast();
     const { likeMovie, watchLaterMovie } = useAppSelector((state) => state.firestoreMovie);
     const navigate = useNavigate();
     const [movieData, setMovieData] = useState<MovieDetail>();
@@ -82,15 +84,15 @@ let SingleMoviePage: FC<Props> = ({ }) => {
                 addToLikeMovies(
                     auth.uid, movieData,
                     () => {
-                        alert("Added")
+                        successToast(toast, "Movie Liked", "Movie like successfully");
                     }, (e) => {
-                        alert(e.message)
+                        errorToast(toast, "Fail to like movie", e.message);
                     });
             } else {
                 removeFromLikeMovies(auth?.uid, likeMovie, movieData, () => {
-                    alert("Removed")
+                    errorToast(toast, "Movie Unliked", "Movie unlike successfully");
                 }, (e) => {
-                    alert(e);
+                    errorToast(toast, "Fail to unlike movie", `${e}`);
                 });
             }
         } else {
@@ -102,15 +104,15 @@ let SingleMoviePage: FC<Props> = ({ }) => {
         if (auth) {
             if (!toRemove) {
                 addToWatchLaterMovies(auth.uid, movieData, () => {
-                    alert("Movie Added")
+                    successToast(toast, "Watch Later Movie", "Watch Later Movie successfully");
                 }, (e) => {
                     console.log(e);
                 });
-            } else {
+            } else {    
                 removeFromWatchLaterMovies(auth?.uid, watchLaterMovie, movieData, () => {
-                    alert("Removed")
+                    errorToast(toast, "Watch Later Movie", "Movie removed from watch later successfully");
                 }, (e) => {
-                    alert(e);
+                    errorToast(toast, "Fail to remove movie", `${e}`);
                 });
             }
         } else {
@@ -121,7 +123,7 @@ let SingleMoviePage: FC<Props> = ({ }) => {
 
     return (
         <VStack alignItems={"flex-start"} m={"0px 5vw"}>
-            <Text fontFamily={"Nunito"} color={"brand.500"} m={"10px 0px"} fontWeight={"regular"} fontSize={"xs"}>Watch Now : Movie {movieData?.original_title}</Text>
+            <Text fontFamily={"Nunito"} color={"brand.500"} m={"10px 0px"} fontWeight={"regular"} fontSize={"xs"}>Watch Now : Movie : {movieData?.original_title}</Text>
             <Box w={"90vw"} h={"550px"} bg={`linear-gradient(rgb(31, 29, 31,0.6),rgb(31, 29, 31,0.6)),url(${"https://image.tmdb.org/t/p/original" + movieData?.backdrop_path})`} style={{ backgroundSize: "cover", backgroundPosition: "center", alignItems: "center", justifyContent: "center" }} display={"flex"} >
                 <Icon as={PlayCircleFilledWhiteIcon} color={'brand.400'} fontSize={"100px"} />
             </Box>

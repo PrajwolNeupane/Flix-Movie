@@ -33,7 +33,6 @@ export const removeFromLikeMovies = (
     deleteDoc(doc(likeCollection, allLikeMovie[index].documentId))
       .then(() => {
         success(index);
-        alert("Removed in");
       })
       .catch((e: Error) => {
         error(e.message);
@@ -43,7 +42,6 @@ export const removeFromLikeMovies = (
     deleteDoc(doc(likeCollection, allLikeMovie[0].documentId))
       .then(() => {
         success(index);
-        alert("Removed in");
       })
       .catch((e: Error) => {
         error(e.message);
@@ -83,7 +81,6 @@ export const removeFromWatchLaterMovies = (
     deleteDoc(doc(likeCollection, allWacthLaterMovie[index].documentId))
       .then(() => {
         success(index);
-        alert("Removed in");
       })
       .catch((e: Error) => {
         error(e.message);
@@ -93,7 +90,6 @@ export const removeFromWatchLaterMovies = (
     deleteDoc(doc(likeCollection, allWacthLaterMovie[0].documentId))
       .then(() => {
         success(index);
-        alert("Removed in");
       })
       .catch((e: Error) => {
         error(e.message);
