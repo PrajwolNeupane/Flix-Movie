@@ -133,7 +133,7 @@ export const removeFromLikeSeries = (
         error(e.message);
       });
   } else {
-    const likeCollection = collection(db, `${uid}/like/movie`);
+    const likeCollection = collection(db, `${uid}/like/series`);
     deleteDoc(doc(likeCollection, allLikeSeries[0].documentId))
       .then(() => {
         success(index);
@@ -180,7 +180,7 @@ export const removeFromWatchLaterSeries = (
         error(e.message);
       });
   } else {
-    const likeCollection = collection(db, `${uid}/watchlater/movie`);
+    const likeCollection = collection(db, `${uid}/watchlater/series`);
     deleteDoc(doc(likeCollection, allLikeSeries[0].documentId))
       .then(() => {
         success(index);

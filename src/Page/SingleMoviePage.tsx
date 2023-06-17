@@ -106,7 +106,7 @@ let SingleMoviePage: FC<Props> = ({ }) => {
                 addToWatchLaterMovies(auth.uid, movieData, () => {
                     successToast(toast, "Watch Later Movie", "Watch Later Movie successfully");
                 }, (e) => {
-                    console.log(e);
+                    errorToast(toast, "Fail to remove movie", `${e}`);
                 });
             } else {    
                 removeFromWatchLaterMovies(auth?.uid, watchLaterMovie, movieData, () => {

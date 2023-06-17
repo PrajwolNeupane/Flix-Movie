@@ -10,7 +10,7 @@ import CardList from '../Component/CardList';
 import axios from 'axios';
 import { compareFireStoreData } from '../Const';
 import { useAppSelector } from '../App/store';
-import { addToLikeSeries, removeFromLikeSeries, addToWatchLaterSeries, removeFromWatchLaterSeries, removeFromWatchLaterMovies } from '../Feature/Firestore';
+import { addToLikeSeries, removeFromLikeSeries, addToWatchLaterSeries, removeFromWatchLaterSeries } from '../Feature/Firestore';
 import { errorToast, successToast } from '../Component/CusomComponents';
 
 interface Props {
@@ -36,11 +36,9 @@ let SingleTVPage: FC<Props> = ({ }) => {
 
     useEffect(() => {
         if (seiresData && likeSeries && watchLaterSeries) {
-            console.log(seiresData.id);
             setSavedLike(compareFireStoreData(likeSeries, seiresData));
             setSavedWatchLater(compareFireStoreData(watchLaterSeries, seiresData));
         }
-        console.log(seiresData);
     }, [seiresData, likeSeries, watchLaterSeries]);
 
     useEffect(() => {
@@ -111,10 +109,10 @@ let SingleTVPage: FC<Props> = ({ }) => {
                 addToWatchLaterSeries(auth.uid, seiresData, () => {
                     successToast(toast, "Watch Later Series", "Watch Later Series successfully");
                 }, (e) => {
-                    console.log(e);
+                    errorToast(toast, "Fail to remove series", `${e}`);
                 });
             } else {
-                removeFromWatchLaterMovies(auth?.uid, watchLaterSeries, seiresData, () => {
+                removeFromWatchLaterSeries(auth?.uid, watchLaterSeries, seiresData, () => {
                     errorToast(toast, "Watch Later Series", "Series removed from watch later successfully");
                 }, (e) => {
                     errorToast(toast, "Fail to remove series", `${e}`);
