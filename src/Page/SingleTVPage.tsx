@@ -1,6 +1,6 @@
-import { Box, Text, Icon, VStack, HStack, Image, Heading, Button } from '@chakra-ui/react';
+import { Box, Text, Icon, VStack, HStack, Image, Heading, Button, useToast } from '@chakra-ui/react';
 import { FC, useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Season, Series, TVCast, TVShow } from '../Interface';
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -10,6 +10,8 @@ import CardList from '../Component/CardList';
 import axios from 'axios';
 import { compareFireStoreData } from '../Const';
 import { useAppSelector } from '../App/store';
+import { addToLikeSeries, removeFromLikeSeries } from '../Feature/Firestore';
+import { errorToast, successToast } from '../Component/CusomComponents';
 
 interface Props {
 
@@ -19,7 +21,10 @@ let SingleTVPage: FC<Props> = ({ }) => {
 
 
     const { likeSeries, watchLaterSeries } = useAppSelector((state) => state.firestoreMovie);
+    const { auth } = useAppSelector((state) => state.auth);
 
+    const toast = useToast();
+    const navigate = useNavigate();
     const { id } = useParams();
     const [seiresData, setSeriesData] = useState<TVShow>();
     const [seriesCast, setSeriesCast] = useState<TVCast>();
@@ -31,9 +36,11 @@ let SingleTVPage: FC<Props> = ({ }) => {
 
     useEffect(() => {
         if (seiresData && likeSeries && watchLaterSeries) {
+            console.log(seiresData.id);
             setSavedLike(compareFireStoreData(likeSeries, seiresData));
             setSavedWatchLater(compareFireStoreData(watchLaterSeries, seiresData));
         }
+        console.log(seiresData);
     }, [seiresData, likeSeries, watchLaterSeries]);
 
     useEffect(() => {
@@ -75,6 +82,29 @@ let SingleTVPage: FC<Props> = ({ }) => {
         }
     }, [seiresData]);
 
+    const likeSeriesHanlder = (toRemove: boolean) => {
+        if (auth) {
+            if (!toRemove) {
+                addToLikeSeries(
+                    auth.uid, seiresData,
+                    () => {
+                        successToast(toast, "Series Liked", "Series like successfully");
+                    }, (e) => {
+                        errorToast(toast, "Fail to like series", e.message);
+                    });
+            } else {
+                removeFromLikeSeries(auth?.uid, likeSeries, seiresData, () => {
+                    errorToast(toast, "Series Unliked", "Series unlike successfully");
+                }, (e) => {
+                    errorToast(toast, "Fail to unlike series", `${e}`);
+                });
+            }
+        } else {
+            navigate("/log-in");
+        }
+
+    }
+
 
     return (
         <VStack alignItems={"flex-start"} m={"0px 5vw"}>
@@ -96,16 +126,18 @@ let SingleTVPage: FC<Props> = ({ }) => {
                     {
                         !isSavedWatchLater ? <Button fontFamily={"Nunito"} height={'45px'} borderRadius={"10px"} color={"text.500"} fontWeight={"medium"} fontSize={"xs"} leftIcon={<Icon as={WatchLaterOutlinedIcon} color={'brand.400'} />} bgColor={'dark.700'} _hover={{ bgColor: "dark.800" }}>
                             Watch Later
-                        </Button> : <Button fontFamily={"Nunito"} height={'45px'} borderRadius={"10px"} color={"text.500"} fontWeight={"medium"} fontSize={"xs"} leftIcon={<Icon as={WatchLaterOutlinedIcon} color={'brand.400'} />} bgColor={'dark.700'} _hover={{ bgColor: "dark.800" }}>
+                        </Button> : <Button fontFamily={"Nunito"} height={'45px'} borderRadius={"10px"} color={"text.500"} fontWeight={"medium"} fontSize={"xs"} leftIcon={<Icon as={WatchLaterOutlinedIcon} color={'brand.400'} />} bgColor={'dark.700'} _hover={{ bgColor: "dark.800" }} >
                             Remove from Watch Later
                         </Button>
                     }
                     {
-                        !isSavedLike ? <Button fontFamily={"Nunito"} borderRadius={"10px"} height={'45px'} color={"text.500"} fontWeight={"medium"} fontSize={"xs"} leftIcon={<Icon as={FavoriteBorderIcon} color={'brand.400'} />} bgColor={'dark.700'} _hover={{ bgColor: "dark.800" }}>
-                            Like
-                        </Button> : <Button fontFamily={"Nunito"} borderRadius={"10px"} height={'45px'} color={"text.500"} fontWeight={"medium"} fontSize={"xs"} leftIcon={<Icon as={FavoriteBorderIcon} color={'brand.400'} />} bgColor={'dark.700'} _hover={{ bgColor: "dark.800" }}>
-                            Remove from like
-                        </Button>
+                        isSavedLike ?
+                            <Button fontFamily={"Nunito"} borderRadius={"10px"} height={'45px'} color={"text.500"} fontWeight={"medium"} fontSize={"xs"} leftIcon={<Icon as={FavoriteBorderIcon} color={'brand.400'} />} bgColor={'dark.700'} _hover={{ bgColor: "dark.800" }} onClick={() => { likeSeriesHanlder(isSavedLike) }}>
+                                Remove from like
+                            </Button> :
+                            <Button fontFamily={"Nunito"} borderRadius={"10px"} height={'45px'} color={"text.500"} fontWeight={"medium"} fontSize={"xs"} leftIcon={<Icon as={FavoriteBorderIcon} color={'brand.400'} />} bgColor={'dark.700'} _hover={{ bgColor: "dark.800" }} onClick={() => { likeSeriesHanlder(isSavedLike) }}>
+                                Like
+                            </Button>
                     }
                 </HStack>
             </HStack>

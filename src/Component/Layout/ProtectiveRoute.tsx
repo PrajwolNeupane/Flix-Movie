@@ -5,7 +5,7 @@ import { setAuth } from "../../App/authSlice";
 import { useAppDispatch } from "../../App/store";
 import { db } from "../../Firebase/config";
 import { collection, onSnapshot } from "firebase/firestore";
-import { setLikeMovie, setWatchLaterMovie } from '../../App/firestoreMovieSlice.js';
+import { setLikeMovie, setWatchLaterMovie,setLikeSeries,setWatchLaterSeries } from '../../App/firestoreMovieSlice.js';
 
 
 interface Props {
@@ -33,7 +33,7 @@ let ProtectiveRoute: FC<Props> = ({ }) => {
             })
 
         }
-        const getWacthLaterMovie = async () => {
+        const getWatchLaterMovie = async () => {
             const Collection = collection(db, `${currentUser?.uid}/watchlater/movie`);
             onSnapshot(Collection, (data) => {
                 var tempData = data.docs.map((doc) => ({
@@ -43,10 +43,35 @@ let ProtectiveRoute: FC<Props> = ({ }) => {
                 dispatch(setWatchLaterMovie(tempData));
             })
         }
+        const getLikeSeries = async () => {
+            const Collection = collection(db, `${currentUser?.uid}/like/series`);
+            onSnapshot(Collection, (data) => {
+                var tempData = data.docs.map((doc) => ({
+                    documentId: doc.id,
+                    ...doc.data(),
+
+                }))
+                dispatch(setLikeSeries(tempData));
+            })
+
+        }
+        const getWatchLaterSeries = async () => {
+            const Collection = collection(db, `${currentUser?.uid}/watchlater/series`);
+            onSnapshot(Collection, (data) => {
+                var tempData = data.docs.map((doc) => ({
+                    documentId: doc.id,
+                    ...doc.data(),
+
+                }))
+                dispatch(setWatchLaterSeries(tempData));
+            })
+
+        }
         if (currentUser) {
             getLikeMovie();
-            getWacthLaterMovie();
-
+            getWatchLaterMovie();
+            getLikeSeries();
+            getWatchLaterSeries();
         }
     }, [currentUser]);
 

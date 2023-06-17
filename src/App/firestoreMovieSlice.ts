@@ -34,4 +34,4 @@ const firestoreMovieSlice = createSlice({
 });
 
 export default firestoreMovieSlice.reducer;
-export const { setLikeMovie, setWatchLaterMovie } = firestoreMovieSlice.actions;
+export const { setLikeMovie, setWatchLaterMovie,setLikeSeries,setWatchLaterSeries } = firestoreMovieSlice.actions;
