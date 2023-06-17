@@ -1,13 +1,15 @@
 import { Box, Text, Icon, VStack, HStack, Image, Heading, Button } from '@chakra-ui/react';
 import { FC, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import {Season, Series, TVCast, TVShow } from '../Interface';
+import { Season, Series, TVCast, TVShow } from '../Interface';
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import WatchLaterOutlinedIcon from '@mui/icons-material/WatchLaterOutlined';
 import LiveTvIcon from '@mui/icons-material/LiveTv';
 import CardList from '../Component/CardList';
 import axios from 'axios';
+import { compareFireStoreData } from '../Const';
+import { useAppSelector } from '../App/store';
 
 interface Props {
 
@@ -15,11 +17,24 @@ interface Props {
 
 let SingleTVPage: FC<Props> = ({ }) => {
 
+
+    const { likeSeries, watchLaterSeries } = useAppSelector((state) => state.firestoreMovie);
+
     const { id } = useParams();
     const [seiresData, setSeriesData] = useState<TVShow>();
     const [seriesCast, setSeriesCast] = useState<TVCast>();
     const [page, setPage] = useState<number>(1);
     const [similarSeries, setSimilarSeries] = useState<Array<Series>>([]);
+
+    const [isSavedLike, setSavedLike] = useState(false);
+    const [isSavedWatchLater, setSavedWatchLater] = useState(false);
+
+    useEffect(() => {
+        if (seiresData && likeSeries && watchLaterSeries) {
+            setSavedLike(compareFireStoreData(likeSeries, seiresData));
+            setSavedWatchLater(compareFireStoreData(watchLaterSeries, seiresData));
+        }
+    }, [seiresData, likeSeries, watchLaterSeries]);
 
     useEffect(() => {
         const getSeriesDetails = async () => {
@@ -63,7 +78,7 @@ let SingleTVPage: FC<Props> = ({ }) => {
 
     return (
         <VStack alignItems={"flex-start"} m={"0px 5vw"}>
-            <Text fontFamily={"Nunito"} color={"brand.500"} m={"10px 0px"} fontWeight={"regular"} fontSize={"xs"}>Watch Now : Series {seiresData?.name}</Text>
+            <Text fontFamily={"Nunito"} color={"brand.500"} m={"10px 0px"} fontWeight={"regular"} fontSize={"xs"}>Watch Now : Series : {seiresData?.name}</Text>
             <Box w={"90vw"} h={"550px"} bg={`linear-gradient(rgb(31, 29, 31,0.6),rgb(31, 29, 31,0.6)),url(${"https://image.tmdb.org/t/p/original" + seiresData?.backdrop_path})`} style={{ backgroundSize: "cover", backgroundPosition: "center", alignItems: "center", justifyContent: "center" }} display={"flex"} >
                 <Icon as={PlayCircleFilledWhiteIcon} color={'brand.400'} fontSize={"100px"} />
             </Box>
@@ -78,12 +93,20 @@ let SingleTVPage: FC<Props> = ({ }) => {
                     </HStack>
                 </Box>
                 <HStack gap={"10px"} alignItems={'center'}>
-                    <Button fontFamily={"Nunito"} height={'45px'} borderRadius={"10px"} color={"text.500"} fontWeight={"medium"} fontSize={"xs"} leftIcon={<Icon as={WatchLaterOutlinedIcon} color={'brand.400'} />} bgColor={'dark.700'} _hover={{ bgColor: "dark.800" }}>
-                        Watch Later
-                    </Button>
-                    <Button fontFamily={"Nunito"} borderRadius={"10px"} height={'45px'} color={"text.500"} fontWeight={"medium"} fontSize={"xs"} leftIcon={<Icon as={FavoriteBorderIcon} color={'brand.400'} />} bgColor={'dark.700'} _hover={{ bgColor: "dark.800" }}>
-                        Like
-                    </Button>
+                    {
+                        !isSavedWatchLater ? <Button fontFamily={"Nunito"} height={'45px'} borderRadius={"10px"} color={"text.500"} fontWeight={"medium"} fontSize={"xs"} leftIcon={<Icon as={WatchLaterOutlinedIcon} color={'brand.400'} />} bgColor={'dark.700'} _hover={{ bgColor: "dark.800" }}>
+                            Watch Later
+                        </Button> : <Button fontFamily={"Nunito"} height={'45px'} borderRadius={"10px"} color={"text.500"} fontWeight={"medium"} fontSize={"xs"} leftIcon={<Icon as={WatchLaterOutlinedIcon} color={'brand.400'} />} bgColor={'dark.700'} _hover={{ bgColor: "dark.800" }}>
+                            Remove from Watch Later
+                        </Button>
+                    }
+                    {
+                        !isSavedLike ? <Button fontFamily={"Nunito"} borderRadius={"10px"} height={'45px'} color={"text.500"} fontWeight={"medium"} fontSize={"xs"} leftIcon={<Icon as={FavoriteBorderIcon} color={'brand.400'} />} bgColor={'dark.700'} _hover={{ bgColor: "dark.800" }}>
+                            Like
+                        </Button> : <Button fontFamily={"Nunito"} borderRadius={"10px"} height={'45px'} color={"text.500"} fontWeight={"medium"} fontSize={"xs"} leftIcon={<Icon as={FavoriteBorderIcon} color={'brand.400'} />} bgColor={'dark.700'} _hover={{ bgColor: "dark.800" }}>
+                            Remove from like
+                        </Button>
+                    }
                 </HStack>
             </HStack>
             <HStack gap={"40px"} pb={"40px"} alignItems={"flex-start"}>
@@ -162,11 +185,11 @@ let SingleTVPage: FC<Props> = ({ }) => {
                                 <td>
                                     <Text fontFamily={"Nunito"} color={"text.500"} fontWeight={"regular"} fontSize={"xxs"}>
                                         {
-                                            seiresData?.seasons.map((curr: Season,indx:number) => {
-                                                if (indx != seiresData?.seasons.length -1 ) {
+                                            seiresData?.seasons.map((curr: Season, indx: number) => {
+                                                if (indx != seiresData?.seasons.length - 1) {
                                                     return (seiresData.name + " " + curr?.name + ",");
-                                                }else{
-                                                    return (seiresData.name +" "+curr?.name);
+                                                } else {
+                                                    return (seiresData.name + " " + curr?.name);
                                                 }
                                             })
                                         }
@@ -181,7 +204,7 @@ let SingleTVPage: FC<Props> = ({ }) => {
                                     <Text fontFamily={"Nunito"} color={"text.500"} fontWeight={"regular"} fontSize={"xxs"}>
                                         {seriesCast?.cast?.slice(0, 6).map((curr, indx: number) => {
                                             if (indx != 5) {
-                                                return (<Link to={`https://www.google.com/search?q=${curr?.name}`} target='_blank'>{curr?.name +", "}</Link>)
+                                                return (<Link to={`https://www.google.com/search?q=${curr?.name}`} target='_blank'>{curr?.name + ", "}</Link>)
                                             } else {
                                                 return (<Link to={`https://www.google.com/search?q=${curr?.name}`} target='_blank'>{curr?.name}</Link>)
                                             }
